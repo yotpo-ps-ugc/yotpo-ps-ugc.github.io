@@ -1,6 +1,5 @@
 This is a github pages created to deploy all migrations & preview new templates created. Listed below are all of the templates created for the team
 
-# Yotpo Reviews Template
 ## Reviews v2 Templates
 - [Reviews Widget v2](/templates/v2_main_reviews_template/)
 - [Review Highlights v2](/templates/v2_review_highlights_template/)
