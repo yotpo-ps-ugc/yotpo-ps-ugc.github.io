@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:root {
+  --primary-background: #04194c;
+  --secondary-background: #f4f6f9;
+  --accordion-background-active: #2f84ed;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  image-rendering: -webkit-optimize-contrast;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--secondary-background) !important;
+}
+
+header {
+  background: var(--primary-background);
+  height: 15vh;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  flex-flow: column wrap;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  align-self: center;
+}
+
+.logo h2 {
+  margin: 0 0 0 11px;
+  font-size: 18px;
+}
+
+.wrapper {
+  max-width: 1120px;
+  width: 100%;
+  padding: 30px 10px;
+  margin: 0 auto;
+  min-height: 75vh;
+}
+
+#accordionExample {
+  padding: 5px 40px;
+  background: #fff;
+  position: relative;
+  margin: 0 auto 20px;
+  border-radius: 25px;
+  padding: 20px;
+}
+
+.widget-holder .widget-title {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.widget-holder .widget-title h4 {
+  margin: 0;
+}
+
+.yotpo-display-l .yotpo-base-layout {
+  width: 100% !important;
+}
+
+#star-rating .yotpo-reviews-star-ratings-widget {
+  justify-content: center !important;
+}
+
+#accordionExample .accordion-button:not(.collapsed) {
+  background: var(--accordion-background-active);
+  color: #fff;
+}
+
+footer {
+  background: var(--primary-background);
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hide {
+  display:none;
+}
+
+@media only screen and (max-width: 600px) {
+  .wrapper {
+    padding: 0;
+    margin: 20px 0 0;
+  }
+  body {
+    background: var(--secondary-background);
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
