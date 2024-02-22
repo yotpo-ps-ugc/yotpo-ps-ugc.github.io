@@ -377,3 +377,17 @@ body { background: #1C1C1C; }
     opacity: 0.5;
 }
 /*END OF PAGINATION SECTION*/
+
+/*QA REMOVAL CODES*/
+#yotpo-reviews-main-widget .yotpo-head {
+    display: none;
+}
+
+#yotpo-reviews-main-widget .yotpo-review-border-smooth {
+    background-repeat: repeat-x;
+}
+
+#yotpo-reviews-main-widget .yotpo-thumbnail-container.yotpo-review-thumbnail-container {
+    display: none;
+}
+/*END QA REMOVAL CODES*/
