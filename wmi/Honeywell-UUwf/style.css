@@ -668,8 +668,11 @@
 
 [class*="yotpo-display-"][class*="yotpo-device-"][style] [class*="-pagination-container"] .yotpo-pagination-number.selected, 
 [class*="yotpo-display-"][class*="yotpo-device-"][style] [class*="-pagination-container"] .yotpo-pagination-number:hover {
-    background: var(--YotpoPaginationBackground);
+    background: none;
     height: auto;
+    color: var(--YotpoPrimaryColor);
+    border-bottom: 2px solid var(--YotpoSecondaryColor);
+    border-radius: 0;
 }
 
 /* Q&A */
