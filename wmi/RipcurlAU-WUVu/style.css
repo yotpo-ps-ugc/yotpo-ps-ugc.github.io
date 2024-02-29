@@ -58,7 +58,7 @@
 
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-head {
     justify-content: end;
-    padding: 50px 0;
+    padding: 20px 0;
     border-top: none;
     margin: 0;
 }
@@ -373,6 +373,11 @@
     color: var(--YotpoPrimaryColor);
 }
 
+[class*="yotpo-display-"][class*="yotpo-device-"][style].yotpo-device-mobile .yotpo-reviews-list > .yotpo-review-votes-wrapper .yotpo-review-votes-text {
+    display: none;
+}
+
+
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-reviews-list > .yotpo-review-border-smooth {
     margin-top: 40px;
     height: 1px;
@@ -436,6 +441,11 @@
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-review .yotpo-review-left-panel .yotpo-reviewer .yotpo-reviewer-details-verified {
     padding: 0;
     align-items: center;
+}
+
+[class*="yotpo-display-"][class*="yotpo-device-"][style].yotpo-device-mobile .yotpo-review .yotpo-review-left-panel .yotpo-reviewer .yotpo-reviewer-details-verified {
+    flex-direction: row;
+    gap: 5px;
 }
 
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-review .yotpo-review-left-panel .yotpo-reviewer .yotpo-reviewer-details-verified div[style="width: fit-content;"] {
@@ -566,6 +576,10 @@
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-review .yotpo-review-center-panel .yotpo-related-product {
 }
 
+[class*="yotpo-display-"][class*="yotpo-device-"][style].yotpo-device-mobile .yotpo-review .yotpo-review-center-panel .yotpo-related-product {
+    margin-top: 5px !important;
+}
+
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-review .yotpo-review-center-panel .yotpo-related-product .yotpo-related-product-title,
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-review .yotpo-review-center-panel .yotpo-related-product a.yotpo-related-product-name  {
     color: #000;
@@ -658,6 +672,9 @@
     order: 2;
     flex-basis: 30%;
 }
+
+
+[class*="yotpo-display-"][class*="yotpo-device-"][style].yotpo-device-mobile .yotpo-review .yotpo-review-right-panel {order: 3;flex-basis: 10%;}
 
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-reviews-list .yotpo-reviews-pagination-container {}
 
