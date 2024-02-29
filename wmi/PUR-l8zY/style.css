@@ -608,11 +608,11 @@
 }
 
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-review .yotpo-review-center-panel .yotpo-comment {
-    margin: 10px 0 0 15px;
+    margin: 0 0 0 15px;
     flex-basis: 100%;
     color: var(--YotpoPrimaryColor);
     border-left: 1px solid var(--YotpoSecondaryColor);
-    padding: 20px 0 20px 15px;
+    padding: 10px 0 10px 15px;
     gap: 15px;
     box-sizing: border-box;
 }
@@ -648,8 +648,8 @@
     gap: 5px;
 }
 
-[class*="yotpo-display-"][class*="yotpo-device-"][style].yotpo-device-mobile .yotpo-review .yotpo-review-center-panel .yotpo-comment .yotpo-comment-title {    
-    margin: 0 0 30px;
+[class*="yotpo-display-"][class*="yotpo-device-"][style].yotpo-device-mobile .yotpo-review .yotpo-review-center-panel .yotpo-comment .yotpo-comment-title {
+    margin: 0 0 0;
 }
 
 [class*="yotpo-display-"][class*="yotpo-device-"][style] .yotpo-review .yotpo-review-center-panel .yotpo-comment .yotpo-comment-title::before{
