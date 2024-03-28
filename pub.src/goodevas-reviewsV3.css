@@ -8,3 +8,7 @@
 #yotpo-reviews-main-widget .yotpo-reviews-list .yotpo-review .yotpo-review-center-panel .yotpo-review-rating-title { flex-direction: column; }
 #yotpo-reviews-main-widget .yotpo-reviews-list .yotpo-review .yotpo-review-center-panel .yotpo-review-rating-title .yotpo-review-title { margin: 10px 0 0; }
 #yotpo-reviews-main-widget .yotpo-reviews-list .yotpo-review .yotpo-review-right-panel { order: 2; }
+
+/* Q&A Widget */
+#yotpo-questions-and-answers .yotpo-main-layout { width: 100% !important; }
+#yotpo-questions-and-answers .yotpo-ask-question-btn-wrapper { position: static; transform: none; margin: 30px auto 0; justify-content: center; }
