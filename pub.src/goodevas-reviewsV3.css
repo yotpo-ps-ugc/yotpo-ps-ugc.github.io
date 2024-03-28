@@ -1,2 +1,10 @@
 .custom-content:has(#yotpo-reviews-main-widget) {flex-flow: row wrap;}
 .custom-content:has(#yotpo-reviews-main-widget) .custom__item.one-whole.align--top-middle {flex: auto;width: 50%;}
+
+#yotpo-reviews-main-widget .yotpo-layout-header-wrapper { flex-direction: column; }
+#yotpo-reviews-main-widget .yotpo-layout-header-wrapper .yotpo-bottom-line {margin-bottom: 30px;margin-right: 0;}
+#yotpo-reviews-main-widget .yotpo-layout-header-wrapper .yotpo-bottom-line .yotpo-star-distribution { border-right: none !important; padding-right: 0; }
+#yotpo-reviews-main-widget .yotpo-reviews-list .yotpo-review .yotpo-review-center-panel { order: 3; flex-basis: 100%; margin-top: 30px; padding: 0; }
+#yotpo-reviews-main-widget .yotpo-reviews-list .yotpo-review .yotpo-review-center-panel .yotpo-review-rating-title { flex-direction: column; }
+#yotpo-reviews-main-widget .yotpo-reviews-list .yotpo-review .yotpo-review-center-panel .yotpo-review-rating-title .yotpo-review-title { margin: 10px 0 0; }
+#yotpo-reviews-main-widget .yotpo-reviews-list .yotpo-review .yotpo-review-right-panel { order: 2; }
