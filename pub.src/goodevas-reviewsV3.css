@@ -1,13 +1,13 @@
 .custom-content:has(#yotpo-reviews-main-widget) {flex-flow: row wrap;}
-.custom-content:has(#yotpo-reviews-main-widget) .yotpo-widget-instance {min-width: 620px;}
-.custom-content:has(#yotpo-reviews-main-widget) > .custom__item:first-child { width: calc(100% - 620px); }
-.custom-content:has(#yotpo-reviews-main-widget) .custom__item.one-whole.align--top-middle {flex: auto;width: 50%;}
+.custom-content:has(#yotpo-reviews-main-widget) .yotpo-widget-instance {width: 620px;}
+.custom-content:has(#yotpo-reviews-main-widget) > .custom__item:first-child { width: calc(100% - 650px); }
+.custom-content:has(#yotpo-reviews-main-widget) .custom__item {/* flex: auto; */width: 620px;}
 
 @media only screen and (max-width: 1100px) {
     .custom-content:has(#yotpo-reviews-main-widget) {flex-flow: column;}
     .custom-content:has(#yotpo-reviews-main-widget) .yotpo-widget-instance {min-width: unset;}
     .custom-content:has(#yotpo-reviews-main-widget) > .custom__item:first-child { width: 100%; }
-    .custom-content:has(#yotpo-reviews-main-widget) .custom__item.one-whole.align--top-middle {flex: auto;width: 100%;}
+    .custom-content:has(#yotpo-reviews-main-widget) .custom__item {flex: auto;width: 100%;}
 }
 
 #yotpo-reviews-main-widget .yotpo-layout-header-wrapper { flex-direction: column; }
