@@ -1,0 +1,2 @@
+.custom-content:has(#yotpo-reviews-main-widget) {flex-flow: row wrap;}
+.custom-content:has(#yotpo-reviews-main-widget) .custom__item.one-whole.align--top-middle {flex: auto;width: 50%;}
