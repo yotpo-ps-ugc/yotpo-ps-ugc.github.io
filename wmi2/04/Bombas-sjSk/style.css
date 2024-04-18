@@ -1,1 +1,5 @@
 .logo img {mix-blend-mode: color-burn;}
+
+@media only screen and (max-width: 600px) {
+    .logo img {mix-blend-mode: normal;}
+}
