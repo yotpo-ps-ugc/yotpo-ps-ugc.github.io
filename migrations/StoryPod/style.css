@@ -1,0 +1,84 @@
+#yotpo-reviews-seo-page .yotpo-reviews-seo-list {
+    columns: 280px 3;
+    position: relative;
+    padding-bottom: 120px;
+}
+
+#yotpo-reviews-seo-page .yotpo-review {
+    display: inline-flex;
+    margin: 10px auto;
+    background: #F5F5F5;
+    border-bottom: 1px solid #CCC;
+    padding: 20px 0;
+    gap: 20px;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-left-panel .yotpo-reviewer .yotpo-reviewer-image {
+    display: none;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel {
+    flex-basis: 100% !important;
+    padding: 0;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel .yotpo-review-title {
+    display: none;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-right-panel {
+    display: none;
+}
+
+#yotpo-reviews-seo-page .yotpo-review ~ .yotpo-review-border-smooth {
+    display: none;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel .yotpo-review-content {
+    margin: 0;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel .yotpo-thumbnail-container {
+    min-width: 100%;
+    order: -1;
+    padding: 0;
+    gap: 0;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel .yotpo-thumbnail-container > div:nth-child(n+2) {
+    display: none;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel .yotpo-thumbnail-container .yotpo-media-thumbnail {
+    width: 100%;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel .yotpo-thumbnail-container .yotpo-media-thumbnail [class*="thumbnail"] {
+    width: 100% !important;
+    height: auto !important;
+    background-size: cover !important;
+    min-height: 300px !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-left-panel {
+    order: 3;
+    padding: 0 10px;
+}
+
+#yotpo-reviews-seo-page .yotpo-review:has([class*="thumbnail-container"]) {
+    padding-top: 0;
+}
+
+#yotpo-reviews-seo-page .yotpo-review-center-panel > * {
+    padding: 0 10px;
+}
+
+#yotpo-reviews-seo-page .yotpo-reviews-seo-list nav.yotpo-reviews-seo-pagination-container {
+    position: absolute;
+    width: 100%;
+    bottom: 50px;
+    left: 0;
+    margin: 0;
+}
