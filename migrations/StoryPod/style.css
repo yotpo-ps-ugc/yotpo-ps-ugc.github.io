@@ -1,5 +1,7 @@
+.wrapper {max-width: 1920px;}
+
 #yotpo-reviews-seo-page .yotpo-reviews-seo-list {
-    columns: 280px 3;
+    columns: 280px 4;
     position: relative;
     padding-bottom: 120px;
 }
