@@ -11,6 +11,25 @@ body { background: #f3f3f3 !important; }
 .stars_v3 section h1 { margin: 0; font-size: 23px; font-family: "trebuchet ms"; margin-bottom: 12px; }
 .stars_v3 section:first-child h1 { margin-bottom: 17px; }
 
+h2.accordion-header:has([class="accord_link"]) { position: relative; }
+a.accord_link { font-size: 14px; position: absolute; top: 50%; right: 60px; transform: translateY(-50%); z-index: 2; border: 1px solid; border-radius: 50px; padding: 5px 10px; text-align: center; border: 0; background: #f2f2f2; text-decoration: none; color: #f77e23; }
+button.accordion-button:has([class="accord_heading"]) { position: relative; z-index: 1; }
+a.accord_link:hover { background: #04c3c1; color: #fff; }
+h3.accord_heading { font-size: 24px; line-height: 140%; font-weight: 700; padding-right: 120px; }
+h3.accord_heading span { font-size: 18px; display: block; line-height: 150%; font-weight: 400; }
+.info_det { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
+.info_det h4, .info_det h5 {font-size: 18px;margin: 0;font-weight: 700;width: max-content;}
+/* .info_det h5 { text-align: right; } */
+.info_det span {font-weight: 400;}
+
+.cliboard-holder { display: flex; flex-flow: row wrap; justify-content: center; border: 2px dashed var(--primary-template-background); margin: 10px 0; padding: 40px 10px; background: #f6f6ff; }
+.cliboard-holder .clipboard-details { width: 100%; margin: 0 10px 10px; max-width: 450px; }
+.clipboard-details { display: flex; flex-flow: column wrap; }
+.cliboard-holder h2 { font-size: 20px; width: 100%; text-align: center; margin-bottom: 23px; }
+.clipboard-details h3 { font-size: 16px; flex-grow: 1; }
+.clipboard-details p { font-size: 12px; }
+.clipboard-details textarea { resize: none; height: 100px; padding: 5px 10px; font-size: 12px; text-align: left; margin-bottom: 0; }
+
 .yotpo-widget-instance[mode-preview="true"] .yotpo-reviews-tab-layout.yotpo-align-text.yotpo-reviews-tab-layout-preview { height: auto; }
 .yotpo-display-l .yotpo-base-layout { width: 100% !important; }
 
@@ -22,4 +41,46 @@ body { background: #f3f3f3 !important; }
     body {
         background: #fff;
     }
+
+    .logo h2 {
+        font-size: 5.5vw;
+    }
+
+    button.accordion-button:has([class="accord_heading"]) h3 {
+        padding-right: 60px;
+        font-size: 18px;
+    }
+
+    h3.accord_heading span {
+        font-size: 13px;
+    }
+
+    a.accord_link {
+        font-size: 0;
+        padding: 10px;
+        border-radius: 50%;
+        right: 55px;
+    }
+
+    a.accord_link:before {
+        content: url(ext-link.png);
+    }
+
+    a.accord_link:hover {
+        background-color: #f2f2f2;
+    }
+
+    .info_det h4, .info_det h5 {
+        width: 100%;
+        text-align: center;
+        line-height: 150%;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .info_det span {
+        display: block;
+    }
+
+    .accordion-body {padding: 20px 10px 0 !important}
 }
