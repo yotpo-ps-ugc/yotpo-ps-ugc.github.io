@@ -1,0 +1,25 @@
+.wrapper {max-width: 1500px;}
+
+.lum_sect {display: flex; justify-content: space-between; position: relative; margin: 40px 0;}
+
+.left_side {width: 50%; margin: 0}
+.left_side img {width: 100%; margin-top: 180px; top: 0; position: sticky;}
+
+.right_side {width: 50%;}
+
+@media screen and (max-width: 768px) {
+    .left_side {display: none;}
+    .right_side {width: 100%;}
+    .lum_sect {display: block;}
+}
+
+/* yotpo temp code */
+/* #yotpo-reviews-main-widget .yotpo-head {display: none;} 
+.yotpo-header-container { position: absolute; left: 0; top: 0; }
+#yotpo-reviews-main-widget .yotpo-header-container .yotpo-layout-header-wrapper { margin: 0; flex-wrap: wrap; justify-content: flex-start; }
+#yotpo-reviews-main-widget .yotpo-header-container .yotpo-layout-header-wrapper .yotpo-bottom-line { width: 100%; justify-content: flex-start; margin: 0 0 10px; }
+#yotpo-reviews-main-widget .yotpo-header-container .yotpo-layout-header-wrapper .yotpo-bottom-line .yotpo-vertical-border { display: none; }
+[id*="yotpo"] .ugc-storefront-widgets-tabs-container { margin: 0; }
+[id*="yotpo-questions"] .yotpo-header-container { position: absolute; left: 0; width: auto; margin: 0; text-align: left; }
+[id*="yotpo-questions"] .yotpo-header-container .yotpo-ask-question-btn-wrapper { position: static; transform: none; margin-top: 20px; }
+[id*="yotpo-question"] .yotpo-main-layout { width: 100% !important;} */
