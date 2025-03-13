@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="main-div">
+    <div class="broken-email">
+      <p>
+        If the content is not displayed correctly, please <a href="#">click here</a>.
+      </p>
+    </div>
+    <table cellspacing="0" class="main-table">
+      <tr>
+        <td class="main-td">
+          <div class="header-logo">
+              <a href="https://www.casio.com/us/">
+                <img class="logo-img" src="https://cdn-yotpo-images-production.yotpo.com/Account/1259692/429681535/big.png?1721798910">
+              </a>
+          </div>
+          
+          <div class="content-header">
+            <div class="content-header-text">
+              <p>
+                <span class="hello-user">{{user}}様</span>
+              </p>
+              <br/>
+              <span class="content-header-text">
+                      <p>
+                          <a href="#">Product Name</a>にレビュー頂きありがとうございます。
+                      </p>
+              <br/>
+                <p class="yotpo-readonly">
+                          以下のリンクをクリックして、メールアドレスを確認して下さい。
+                      </p>
+              <br/>         
+                <p>
+                          メールアドレスは表示されません。他のお客様にレビューを信頼性のあるものとして示すために、メールアドレスが合っているかどうかの確認をお勧めしております。
+                      </p>
+                      <br/>
+                      <br/>
+                  </span>
+            </div>
+            <a href="{{ verification_link }}" class="yotpo-readonly">
+              <span class="confirmation-link">メールアドレスが合っていることを承認する</span>
+            </a>
+          </div>
+          
+          <div class="no-form-placeholder">
+          </div>
+          
+          <div class="content-bottom p1">
+            <p>
+              <br/>
+              CASIO
+            </p>
+          </div>
+          
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

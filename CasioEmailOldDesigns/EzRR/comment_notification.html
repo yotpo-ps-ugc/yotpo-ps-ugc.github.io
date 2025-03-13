@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="main-div">
+    <div class="broken-email">
+      <p>
+        If the content is not displayed correctly, please <a href="#">click here</a>.
+      </p>
+    </div>
+    <table cellspacing="0" class="main-table">
+      <tr>
+        <td class="main-td">
+          <div class="header-logo">
+              <a href="https://www.casio.com/us/">
+                <img class="logo-img" src="https://cdn-yotpo-images-production.yotpo.com/Account/1259692/429681535/big.png?1721798910">
+              </a>
+          </div>
+          
+          <div class="content-header">
+            <p> 
+              <br/>
+              Hello Friend,<br/>
+              <br/>
+              Thank you for your review of your new {{ product_name | link_to: product_url }}, it now has a reply!<br/>
+              <br/>
+              If you do not find the reply helpful, you can email us any futher questions to our Customer Service team at <a href="mailto:cs@casiocanada.com?subject=Inquiry about the products review">cs@casiocanada.com</a>.
+            </p>
+          </div>
+          
+          <div class="main-form">
+            <div class="comment-container">
+              <hr>
+              <p class="comment">
+                <q>{{ comment.content }}</q>
+              </p>
+            </div>
+          </div>
+          
+          <div class="content-bottom p1">
+            <p style="text-align:center;font-size:10px;color:#888888;line-height:1.5em; padding-top:50px;">© 2024 CASIO CANADA LTD.
+          </p>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
+

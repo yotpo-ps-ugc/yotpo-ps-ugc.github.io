@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="main-div">
+  <div class="broken-email">
+    <p>
+      If the content is not displayed correctly, please <a href="#">click here</a>.
+    </p>
+  </div>
+  <table cellspacing="0" class="main-table">
+    <tr>
+      <td class="main-td">
+        <div class="header-logo">
+          <a href="https://www.casio.com/us/">
+            <img class="logo-img" src="https://cdn-yotpo-images-production.yotpo.com/Account/1259692/429681535/big.png?1721798910">
+          </a>
+        </div>
+        
+        ＊＊＊Automatic Review Requests / Manual Review Requests(Product Reviews) 以外のレビュー依頼メールを送信しなければ不要＊＊＊
+
+<div class="content-header">
+  <p>
+  <span class="hello-user">{{ user_name }}様</span>
+  <br/>この度は、{{ store_name }}をご利用頂き誠にありがとうございます。
+　<br/>当ストアでは、過去にショッピングをご利用頂いたお客様に、その際のご感想をお伺いできればと思っております。
+　<br/>      
+　<br/>お手数ではございますが、当ストアに対する感想をお聞かせ頂けませんでしょうか。
+　<br/>
+　<br/>例）
+　<br/>・配送について
+  <br/>・カスタマーサポートについて
+  <br/>・サイトの使いやすさ
+  </p>
+
+</div>
+
+<div class="yotpo-readonly-start"></div>
+<div class="main-form">
+  <form class="form" action="{{ submit_url }}" method="get" target="_blank">
+    <table width="100%">
+      <tr>
+        <td width="5%"></td>
+        <td class="title3 yotpo-not-readonly">
+          RATING
+        </td>
+        <td width="5%"></td>
+      </tr>
+      <tr>
+        <td width="5%"></td>
+        <td width="90%" class="stars-container">
+          <span class="stars_cont-top">
+              <span class="stars_radio_cont"><input class="stars_input_a" name="review_score" type="radio" value="1">
+                <label>
+                  <span class="stars_input2">★</span>
+                </label>
+              </span>
+              <span class="stars_radio_cont"><input class="stars_input_b" name="review_score" type="radio" value="2">
+                <label>
+                  <span class="stars_input2">★★</span>
+                </label>
+              </span>
+              <span class="stars_radio_cont"><input class="stars_input_c" name="review_score" type="radio" value="3">
+                <label>
+                  <span class="stars_input2">★★★</span>
+                </label>
+              </span>
+            </span>
+            <span class="stars_cont-bottom">
+              <span class="stars_radio_cont"><input class="stars_input_d" name="review_score" type="radio" value="4">
+                <label>
+                  <span class="stars_input2  avg">★★★★</span>
+                </label>
+              </span>
+              <span class="stars_radio_cont"><input class="stars_input_e" name="review_score" type="radio" value="5" checked>
+                <label>
+                  <span class="stars_input2">★★★★★</span>
+                </label>
+              </span>
+            </span>
+        </td>
+        <td width="5%"></td>
+      </tr>
+    </table>
+    <table width="100%">
+      <tr>
+        <td width="5%"></td>
+        <td width="90%">
+          <table cellspacing="0" cellpadding="0" border="0" class="table1">
+            <tr>
+              <td class="title3 yotpo-not-readonly">
+                TITLE
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <ul style="margin:0;padding:0;"><input class="text_filed" type="text" name="review_title"><br></ul>
+              </td>
+            </tr>
+            <tr>
+              <td class="title3 yotpo-not-readonly" width="100%">
+                REVIEW
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <ul style="margin:0;padding:0;"><textarea class="textarea" name="review_content" cols="40"
+                                                          rows="5"></textarea><br></ul>
+              </td>
+            </tr>
+            <tr>
+              <td class="y-row-center">
+                <p style="font-size:12px; line-height:1.4; margin-top:1.6em;">
+                  You can add more photos and videos after you click on the button below.</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="y-row-center">
+                <button type="submit" class="submit default-submit">
+                  WRITE A REVIEW
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="y-row-center"><br>
+                <p style="font-size:12px; line-height:1.4; margin-top:2em;">
+                  Need help? Email us at <a href="mailto:cms@casio.com?subject=Inquiry about the products review">cms@casio.com</a></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="5%"></td>
+      </tr>
+    </table>
+  </form>
+</div>
+<div class="yotpo-readonly-end"></div>
+
+<div class="content-bottom p1">
+  <p>
+  <br/>※ご記入いただきました内容については、お客様のお名前が特定できない形で全て弊社サイトへ公開させていただきますので、ご了承の上ご記入願います。ただし、レビュー本文中にお名前やご連絡先など個人情報が含まれる場合は非掲載とさせていただきます。また、当社の判断にて非掲載とさせていただく場合もございますのでご了承願います。 
+  <br/><a href="#">store_name</a>
+　</p>
+</div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

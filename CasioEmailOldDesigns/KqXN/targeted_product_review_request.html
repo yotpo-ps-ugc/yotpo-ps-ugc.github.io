@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="main-div">
+    <div class="broken-email">
+      <p>
+        メールの内容が正しく表示されない場合は<a href="#">ここをクリック</a>して入力をお願いいたします。
+      </p>
+    </div>
+
+    <table cellspacing="0" class="main-table">
+      <tr>
+        <td class="main-td">
+          <div class="header-logo">
+            <a href="https://www.casio.com/jp/">
+              <img class="logo-img" src="https://cdn-yotpo-images-production.yotpo.com/Account/1259692/429681535/big.png?1721798910">
+            </a>
+          </div>
+          
+          <div class="content-header">
+            <p style="font-size:13px;color:#424242;line-height:1.5em;">
+            本メールはCASIO IDにご愛用の製品をご登録された方へ配信しております。
+              <br/>
+              <br/>ご登録いただきました【<a href="{{ product_url }}" target="_blank">{{ product_name }}</a>】にはご満足いただけましたでしょうか。
+              <br/>{{ store_name }}ではご購入商品についてのレビューを募集しています！
+              <br/>これからお買い物をされるお客様に役立つ貴重な情報となりますので、ぜひご利用後のご意見・ご感想をお聞かせください。
+              </p>
+          
+          </div>
+          
+          <p style="text-align:center;font-size:13px;color:#424242;"><a href="{{ product_url }}" target="_blank">{{ product_name }}</a></p>
+          <div class="yotpo-readonly-start"></div>
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="5%"></td>
+              <td width="90%" align="center">
+                <img src="https://ddcfq0gxiontw.cloudfront.net/images/default_product_image.png" alt="" class="product-image">
+                <hr/>
+              </td>
+              <td width="5%"></td>
+            </tr>
+          </table>
+          <div class="yotpo-readonly-end"></div>
+          
+          <div class="yotpo-readonly-start"></div>
+          <div class="main-form">
+            <form class="form" action="{{ submit_url }}" method="get" target="_blank">
+              <table width="100%">
+                <tr>
+                  <td width="5%"></td>
+                  <td class="title3 yotpo-not-readonly">
+                    総合評価
+                  </td>
+                  <td width="5%"></td>
+                </tr>
+                <tr>
+                  <td width="5%"></td>
+                  <td width="90%" class="stars-container">
+                    <span class="stars_cont-top">
+                      <span class="stars_radio_cont"><input class="stars_input_a" name="review_score" type="radio" value="1">
+                        <label>
+                          <span class="stars_input2">★</span>
+                        </label>
+                      </span>
+                      <span class="stars_radio_cont"><input class="stars_input_b" name="review_score" type="radio" value="2">
+                        <label>
+                          <span class="stars_input2">★★</span>
+                        </label>
+                      </span>
+                      <span class="stars_radio_cont"><input class="stars_input_c" name="review_score" type="radio" value="3">
+                        <label>
+                          <span class="stars_input2">★★★</span>
+                        </label>
+                      </span>
+                    </span>
+                    <span class="stars_cont-bottom">
+                      <span class="stars_radio_cont"><input class="stars_input_d" name="review_score" type="radio" value="4">
+                        <label>
+                          <span class="stars_input2  avg">★★★★</span>
+                        </label>
+                      </span>
+                      <span class="stars_radio_cont"><input class="stars_input_e" name="review_score" type="radio" value="5" checked>
+                        <label>
+                          <span class="stars_input2">★★★★★</span>
+                        </label>
+                      </span>
+                    </span>
+                  </td>
+                  <td width="5%"></td>
+                </tr>
+              </table>
+              <table width="100%">
+                <tr>
+                  <td width="5%"></td>
+                  <td width="90%">
+                    <table cellspacing="0" cellpadding="0" border="0" class="table1">
+                        <tr>
+                          <td class="title3 yotpo-not-readonly">
+                            タイトルを入力（1行にレビューを要約）
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <ul style="margin:0;padding:0;"><input class="text_filed" type="text" name="review_title"><br></ul>
+                          </td>
+                        </tr>
+                      <tr>
+                        <td class="title3 yotpo-not-readonly" width="100%">
+                          レビューを入力（気に入ったこと・商品の使いみち）
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <ul style="margin:0;padding:0;"><textarea class="textarea" name="review_content" cols="40"
+                                                                    rows="5"></textarea><br></ul>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="y-row-center">
+                          <p style="font-size:12px; line-height:1.4; margin-top:1.6em;">
+                            投稿ボタンを押した後、写真や動画を追加で投稿していただけます。<br>
+                            こちらもぜひご利用ください。</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="y-row-center">
+                          <button type="submit" class="submit default-submit">
+                            下記に同意して投稿する
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="y-row-center"><br>
+                          <p style="font-size:12px; line-height:1.4; margin-top:2em;">
+                            商品について何かご不明な点やお気づきの点などございましたら<br>お気軽に<a href="https://casio.jp/support/" target="_blank">お問い合わせ</a>ください。</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="5%"></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+          <div class="yotpo-readonly-end"></div>
+          
+          <div class="content-bottom p1">
+            <p style="text-align:left;font-size:10px;color:#888888;line-height:1.5em;">　
+              <br/>本メールからの投稿完了をもって、お客様は下記の注意事項及びプライバシーポリシーに同意したものとみなされます。
+              <br/>■注意事項
+              <br/>・頂戴した弊社製品レビューは弊社にて確認の上、掲載となります。掲載されない場合もありますので、あらかじめご了承ください。
+              <br/>・レビュー本文中にお名前やご連絡先など個人情報が含まれる場合は非掲載とさせていただきます。
+              <br/>・レビューに関わる著作権等一切の権利はすべて弊社に帰属するものとします。
+              <br/>・頂戴したレビューに関して弊社は一切責任を負いません。
+              <br/>・本メールは送信専用となります。製品のご質問等についてはご回答が出来ませんので、<a href="https://casio.jp/support/" target="_blank">サポートサイト</a>よりご相談をお願いします。
+              <br/><br/>■プライバシーポリシー
+              <br/>弊社は、お客様から頂戴するレビューの内容及び個人情報（以下「レビュー情報等」といいます）を、弊社の<a href="https://www.casio.co.jp/privacy/" target="_blank">個人情報保護方針</a>に基づいて適切にお取り扱いいたします。なお、レビュー投稿及び個人情報の入力はお客様の任意です。
+              <br/>（１）利用目的
+              <br/>弊社は、レビュー情報等は、以下の目的で利用させていただきます。
+              <br/>・弊社ウェブサイト等でのレビューのご紹介のため
+              <br/>・弊社製品ご利用状況の調査、解析、分析（市場調査目的を含む）に使用するため
+              <br/>・弊社の製品開発、改良及びマーケティングに使用するため
+              <br/>※お客様がCASIO IDご利用の場合は、上記利用目的の範囲で、CASIO IDにレビュー情報等を参照させていただくことがあります。
+            <br/>※統計情報等、個人を特定できないかたちで、マーケティングその他弊社事業目的に使用し、第三者に提供することがあります。
+              <br/>（２）第三者への提供及び開示
+              <br/>弊社では、お客様から予め同意をいただいている場合及び次の場合以外には、弊社以外の第三者にレビュー情報等を開示することはございません。
+              <br/>・（１）の利用目的達成のために業務委託する場合
+            <br/>・法令に基づき、司法、行政又はこれに類する機関より情報開示の要請があった場合
+              <br/>（３）管理者及びお問い合わせ窓口
+              <br/>・個人情報管理責任者：カシオ計算機株式会社　執行役員 営業本部 国内営業統轄部長
+              <br/>・個人情報の照会、訂正、削除等の窓口及びレビュー情報等の取扱いに関するお問い合わせ先：個人情報ご相談窓口　電話：0570-006800（ナビダイヤル）</p>
+            <br/>
+            <p style="text-align:left;font-size:11px;color:#888888;line-height:1.5em;"><a href="https://www.casio.co.jp/privacy/" target="_blank">プライバシーポリシー</a> ｜ <a href="https://www.casio.co.jp/contact/" target="_blank">お問い合わせ</a> ｜ {{ 'レビューメールの配信解除' | link_to: unsubscribe_url }}</p>
+            <p style="text-align:center;font-size:10px;color:#888888;line-height:1.5em; padding-top:50px;">© 2021 CASIO COMPUTER CO., LTD.
+          </p>
+            </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

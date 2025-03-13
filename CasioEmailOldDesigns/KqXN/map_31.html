@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="main-div">
+    <div class="broken-email">
+      <p>
+        メールの内容が正しく表示されない場合は<a href="#">ここをクリック</a>して入力をお願いいたします。
+      </p>
+    </div>
+
+    <table cellspacing="0" class="main-table">
+      <tr>
+        <td class="main-td">
+          <div class="header-logo">
+            <a href="https://www.casio.com/jp/">
+              <img class="logo-img" src="https://cdn-yotpo-images-production.yotpo.com/Account/1259692/429681535/big.png?1721798910">
+            </a>
+          </div>
+          
+          <div class="content-header">
+            <p>お客様各位
+              <br/>
+            <br/>先日は{{ store_name }}をご利用頂き、誠にありがとうございました。
+          　<br/>
+              <br/>このたび、ご購入いただきました【<a href="{{ product_url }}" target="_blank">{{ product_name }}</a>】はいかがでしたでしょうか。
+              <br/>お客様にとってご満足のいただけるものでしたら、大変うれしく思います。
+              <br/>もし、ご利用いただく中で不明点などございましたら、お気軽に<a href="https://casio.jp/support/" target="_blank">お問合せ窓口</a>へご相談くださいますようお願いします。
+              <br/>
+              <br/>さて、早速でございますが、実際に商品をお使いになられてみてのご感想や改善点など、何かお気づきの点がございましたら、ぜひレビュー投稿をお願いできればと思います。商品のご利用シーンがわかる画像や動画なども、購入を検討いただいているお客様とっては大変貴重な情報となりますので、差支えなければ、あわせて投稿いただけますと幸いです。
+              <br/>
+              <br/>なお、いただきましたレビューは、弊社で確認の上、サイトに掲載される予定です。掲載されない場合もございますので、あらかじめご了承くださいますようお願い申し上げます。
+              <br/>
+            <br/>皆様からの投稿を心よりお待ちしております。  
+          　<br/>今後とも{{ store_name }}をよろしくお願いいたします。</p>
+          
+          </div>
+          
+          <p style="text-align:center;font-size:13px;color:#424242;">ご購入いただいた商品
+            <br/>＜<a href="{{ product_url }}" target="_blank"> {{ product_name }} </a>＞</p>
+            <div class="yotpo-readonly-start"></div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="5%"></td>
+                <td width="90%" align="center">
+                  <img src="https://ddcfq0gxiontw.cloudfront.net/images/default_product_image.png" alt="" class="product-image">
+                  <hr/>
+                </td>
+                <td width="5%"></td>
+              </tr>
+            </table>
+            <div class="yotpo-readonly-end"></div>  
+          
+          <div class="yotpo-readonly-start"></div>
+          <div class="main-form">
+            <form class="form" action="{{ submit_url }}" method="get" target="_blank">
+              <table width="100%">
+                <tr>
+                  <td width="5%"></td>
+                  <td class="title3 yotpo-not-readonly">
+                    総合評価
+                  </td>
+                  <td width="5%"></td>
+                </tr>
+                <tr>
+                  <td width="5%"></td>
+                  <td width="90%" class="stars-container">
+                    <span class="stars_cont-top">
+                      <span class="stars_radio_cont"><input class="stars_input_a" name="review_score" type="radio" value="1">
+                        <label>
+                          <span class="stars_input2">★</span>
+                        </label>
+                      </span>
+                      <span class="stars_radio_cont"><input class="stars_input_b" name="review_score" type="radio" value="2">
+                        <label>
+                          <span class="stars_input2">★★</span>
+                        </label>
+                      </span>
+                      <span class="stars_radio_cont"><input class="stars_input_c" name="review_score" type="radio" value="3">
+                        <label>
+                          <span class="stars_input2">★★★</span>
+                        </label>
+                      </span>
+                    </span>
+                    <span class="stars_cont-bottom">
+                      <span class="stars_radio_cont"><input class="stars_input_d" name="review_score" type="radio" value="4">
+                        <label>
+                          <span class="stars_input2  avg">★★★★</span>
+                        </label>
+                      </span>
+                      <span class="stars_radio_cont"><input class="stars_input_e" name="review_score" type="radio" value="5" checked>
+                        <label>
+                          <span class="stars_input2">★★★★★</span>
+                        </label>
+                      </span>
+                    </span>
+                  </td>
+                  <td width="5%"></td>
+                </tr>
+              </table>
+              <table width="100%">
+                <tr>
+                  <td width="5%"></td>
+                  <td width="90%">
+                    <table cellspacing="0" cellpadding="0" border="0" class="table1">
+                        <tr>
+                          <td class="title3 yotpo-not-readonly">
+                            タイトルを入力（1行にレビューを要約）
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <ul style="margin:0;padding:0;"><input class="text_filed" type="text" name="review_title"><br></ul>
+                          </td>
+                        </tr>
+                      <tr>
+                        <td class="title3 yotpo-not-readonly" width="100%">
+                          レビューを入力（気に入ったこと・商品の使いみち）
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <ul style="margin:0;padding:0;"><textarea class="textarea" name="review_content" cols="40"
+                                                                    rows="5"></textarea><br></ul>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="y-row-center">
+                          <p style="font-size:12px; line-height:1.4; margin-top:1.6em;">
+                            投稿ボタンを押した後、写真や動画を追加で投稿していただけます。<br>
+                            こちらもぜひご利用ください。</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="y-row-center">
+                          <button type="submit" class="submit default-submit">
+                            下記に同意して投稿する
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="y-row-center"><br>
+                          <p style="font-size:12px; line-height:1.4; margin-top:2em;">
+                            商品について何かご不明な点やお気づきの点などございましたら<br>お気軽に<a href="https://casio.jp/support/" target="_blank">お問い合わせ</a>ください。</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="5%"></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+          <div class="yotpo-readonly-end"></div>
+          
+          <div class="content-bottom p1">
+            <p style="text-align:left;font-size:11px;color:#888888;line-height:1.5em;">　
+              <br/>本メールからの投稿完了をもって、お客様は下記の注意事項及びプライバシーポリシーに同意したものとみなされます。
+              <br/>・頂戴したレビューは弊社にて確認の上、掲載となります。掲載されない場合もありますので、あらかじめご了承ください。
+              <br/>・レビュー本文中にお名前やご連絡先など個人情報が含まれる場合は非掲載とさせていただきます。
+              <br/>・レビューに関わる著作権等一切の権利はすべて弊社に帰属するものとします。
+              <br/>・頂戴したレビューに関して弊社は一切責任を負いません。
+              <br/>・本メールは送信専用となります。製品のご質問等についてはご回答が出来ませんので、<a href="https://casio.jp/support/" target="_blank">サポートサイト</a>よりご相談をお願いします。
+              <br/>・お客様から頂戴する個人情報は本件レビューのご紹介にのみ使用し、弊社の個人情報保護方針に基づいて適切にお取り扱いいたします。</p>
+            <br/>
+            <p style="text-align:left;font-size:11px;color:#888888;line-height:1.5em;"><a href="https://www.casio.co.jp/privacy/" target="_blank">プライバシーポリシー</a> ｜ <a href="https://www.casio.co.jp/contact/" target="_blank">お問い合わせ</a> ｜ <a href="#">レビューメールの配信解除</a></p>
+            <p style="text-align:center;font-size:10px;color:#888888;line-height:1.5em; padding-top:50px;">© 2021 CASIO COMPUTER CO., LTD.
+          </p>
+            </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
