@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/Common.css">
+    <link rel="stylesheet" href="assets/css/HeaderReviewInfo.css">
+    <link rel="stylesheet" href="assets/css/Filter.css">
+    <link rel="stylesheet" href="assets/css/CustomerReview.css">
+    <link rel="stylesheet" href="assets/css/Pagination.css">
+    
+    <title>Customer Review</title>
+</head>
+<body>
+    <main>
+        <section class="customer-review-container">
+            <div class="header-container">
+                <div class="header">CUSTOMER REVIEWS</div>
+                <div class="rating-container">
+                    <div>4.5</div>
+                    <div class="header-stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
+                            <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                        </svg>
+                    </div>
+                    <div>314 reviews</div>
+                </div>
+                <div class="write-review">WRITE A REVIEW</div>
+            </div>
+
+            <div class="filter-container-mobile">
+                <button type="button">
+                    <svg width="64px" height="64px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>filter-horizontal-solid</title> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="icons_Q2" data-name="icons Q2"> <path d="M41.8,8H21.7A6.2,6.2,0,0,0,16,4a6,6,0,0,0-5.6,4H6.2A2.1,2.1,0,0,0,4,10a2.1,2.1,0,0,0,2.2,2h4.2A6,6,0,0,0,16,16a6.2,6.2,0,0,0,5.7-4H41.8A2.1,2.1,0,0,0,44,10,2.1,2.1,0,0,0,41.8,8Z"></path> <path d="M41.8,22H37.7A6.2,6.2,0,0,0,32,18a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4H26.4A6,6,0,0,0,32,30a6.2,6.2,0,0,0,5.7-4h4.1a2,2,0,1,0,0-4Z"></path> <path d="M41.8,36H24.7A6.2,6.2,0,0,0,19,32a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4h7.2A6,6,0,0,0,19,44a6.2,6.2,0,0,0,5.7-4H41.8a2,2,0,1,0,0-4Z"></path> </g> </g> </g></svg>
+                    Filters
+                </button>
+            </div>
+            <!-- Filters -->
+            <div class="filter-container">
+                <div class="filter-header">Filter Reviews</div>
+
+                <div class="filter-drpdowns">
+                    <div class="dropdown" onclick="toggleDropdown(this)">
+                        <div class="dropdown-btn">Rating <img src="assets/images/arrow-down.png" alt="dropdown"></div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item">1 Star</div>
+                            <div class="dropdown-item">2 Stars</div>
+                            <div class="dropdown-item">3 Stars</div>
+                            <div class="dropdown-item">4 Stars</div>
+                            <div class="dropdown-item">5 Stars</div>
+                        </div>
+                    </div>
+                
+                    <div class="dropdown" onclick="toggleDropdown(this)">
+                        <div class="dropdown-btn">Size Purchased <img src="assets/images/arrow-down.png" alt="dropdown"></div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item">Small</div>
+                            <div class="dropdown-item">Medium</div>
+                            <div class="dropdown-item">Large</div>
+                            <div class="dropdown-item">Extra Large</div>
+                        </div>
+                    </div>
+                
+                    <div class="dropdown" onclick="toggleDropdown(this)">
+                        <div class="dropdown-btn">Product Fit <img src="assets/images/arrow-down.png" alt="dropdown"></div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item">Tight</div>
+                            <div class="dropdown-item">Perfect</div>
+                            <div class="dropdown-item">Loose</div>
+                        </div>
+                    </div>
+                
+                    <div class="dropdown" onclick="toggleDropdown(this)">
+                        <div class="dropdown-btn">Body Type <img src="assets/images/arrow-down.png" alt="dropdown"></div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item">Slim</div>
+                            <div class="dropdown-item">Average</div>
+                            <div class="dropdown-item">Athletic</div>
+                            <div class="dropdown-item">Plus Size</div>
+                        </div>
+                    </div>
+                
+                    <label class="checkbox-container">                       
+                        With media
+                        <input type="checkbox">
+                    </label>
+                
+                    <div class="dropdown" onclick="toggleDropdown(this)">
+                        <div class="dropdown-btn">Bust Size <img src="assets/images/arrow-down.png" alt="dropdown"></div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item">A-cup</div>
+                            <div class="dropdown-item">B-cup</div>
+                            <div class="dropdown-item">C-cup</div>
+                            <div class="dropdown-item">D-cup or larger</div>
+                        </div>
+                    </div>
+                
+                    <div class="dropdown" onclick="toggleDropdown(this)">
+                        <div class="dropdown-btn">Height <img src="assets/images/arrow-down.png" alt="dropdown"></div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item">Under 5'0"</div>
+                            <div class="dropdown-item">5'0" - 5'4"</div>
+                            <div class="dropdown-item">5'5" - 5'9"</div>
+                            <div class="dropdown-item">6'0" and above</div>
+                        </div>
+                    </div>
+                
+                    <div class="dropdown" onclick="toggleDropdown(this)">
+                        <div class="dropdown-btn">Size Usually Worn <img src="assets/images/arrow-down.png" alt="dropdown"></div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item">Small</div>
+                            <div class="dropdown-item">Medium</div>
+                            <div class="dropdown-item">Large</div>
+                            <div class="dropdown-item">Extra Large</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Reviews  -->
+            <div class="reviews-container">
+                <div class="review">
+                    <div class="left-review-info">
+                        <div class="reviewer-name">Meta J.</div>
+                        <div class="reviewer-choice">
+                            <div>Bust Size <span>D</span></div>
+                            <div>Size Purchased <span>M</span></div>
+                            <div>Size Usually Worn <span>M</span></div>
+                        </div>
+                    </div>
+                    <div class="right-review-info">
+                        <div class="review-rating">
+                            <div class="stars-container">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                            </div>
+                            <div class="review-title">
+                                <div>I bought this dress from</div>
+                            </div>
+                        </div>
+
+                        <div class="review-comment">
+                            <p>I bought this dress from y'all and it was absolutely a perfect fit. It was a little short for me as a tall girl so I might have bought a bigger size or one of their other dresses!</p>
+                        </div>
+                        
+                        <div class="reviewer-choice-mobile">
+                            <div>Bust Size: <span>D</span></div>
+                            <div>Size Purchased: <span>M</span></div>
+                            <div>Size Usually Worn: <span>M</span></div>
+                        </div>
+
+                        <div class="review-images">
+                            <img src="assets/images/pretty-woman-trying-clothes-fitting-shop-lady-red-dress-reflected-mirror-portrait-girl-hair-glasses-133337728.webp" alt="review-image">
+                            <img src="assets/images/woman-red-dress-looks-mirror-young-66100096.webp" alt="review-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="reviews-container">
+                <div class="review">
+                    <div class="left-review-info">
+                        <div class="reviewer-name">Kristen L.</div>
+                        <div class="reviewer-choice">
+                            <div>Bust Size <span>B</span></div>
+                            <div>Size Purchased <span>M</span></div>
+                            <div>Size Usually Worn <span>M</span></div>
+                        </div>
+                    </div>
+                    <div class="right-review-info">
+                        <div class="review-rating">
+                            <div class="stars-container">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                
+                            </div>
+                            <div class="review-title">
+                                <div>Love!</div>
+                            </div>
+                        </div>
+
+                        <div class="review-comment">
+                            <p>I'm 5'9, it's a little shorter in the fro than the back so it's a great walking, standing & dinner dress, definitely can't dance in it unless you wear spandex underneath. It fits like pjs! So comfy! Body tape recommended to keep from side boob exposure.</p>
+                        </div>
+                        <div class="reviewer-choice-mobile">
+                            <div>Bust Size: <span>D</span></div>
+                            <div>Size Purchased: <span>M</span></div>
+                            <div>Size Usually Worn: <span>M</span></div>
+                        </div>
+                        <div class="review-images">
+                            <img src="assets/images/nice-dinner-beautiful-elegant-woman-having-kitchen-home-home-interior-49353514.webp" alt="review-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination-container">
+                <svg class="bi-chevron-left" width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Arrow / Chevron_Left_MD"> <path id="Vector" d="M14 16L10 12L14 8" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
+                <div class="page-number active">1</div>
+                <div class="page-number">2</div>
+                <div class="page-number">3</div>
+                <div class="page-number">4</div>
+                <div class="page-number">5</div>
+                <svg class="bi-chevron-right" width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Arrow / Chevron_Right_MD"> <path id="Vector" d="M10 8L14 12L10 16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
+            </div>
+
+            <div class="pagination-mobile">
+                <button type="button">Load more reviews</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="assets/js/dropdown.js"></script>
+</body>
+</html>

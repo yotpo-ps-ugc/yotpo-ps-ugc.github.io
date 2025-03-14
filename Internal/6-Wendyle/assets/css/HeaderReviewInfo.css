@@ -1,0 +1,43 @@
+.header{
+    font-family: 'Roboto', sans-serif;
+    font-weight: medium;
+    color: var(--primary-color);
+}
+
+.header-container{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.rating-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    gap: 10px;
+    padding: 1rem 0;
+    background-color: #FFF0ED;
+    color: var(--primary-color);
+}
+
+.header-stars-container svg, .stars-container svg{
+    color: var(--star-color);
+    width: 20px;
+    height: 20px;
+}
+
+.write-review{
+    user-select: none;
+    padding: .5rem 2rem;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--primary-color);
+}
+.write-review:hover{
+    background-color: var(--hover-effect-color);
+}
