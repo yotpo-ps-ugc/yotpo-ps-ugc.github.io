@@ -30,6 +30,7 @@ body {
     font-size: 9px;
     font-style: oblique;
     color: rebeccapurple;
+    display: block;
 }
 .faq-link {
     display: block;
