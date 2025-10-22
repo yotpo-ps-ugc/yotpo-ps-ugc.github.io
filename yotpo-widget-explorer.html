@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yotpo Widget Explorer & Viewer</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f8f9fb;
+      margin: 0;
+      padding: 1.5rem;
+      color: #222;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    input, button {
+      font-size: 1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+    }
+    input {
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 0.5rem;
+    }
+    button {
+      border: none;
+      background: #006aff;
+      color: white;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      transition: background 0.2s ease;
+    }
+    button:hover { background: #0051c7; }
+
+    .status {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    th, td {
+      padding: 0.8rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 0.95rem;
+    }
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
+    tr:hover { background: #fafafa; }
+
+    /* Responsive table → card layout */
+    @media (max-width: 700px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead { display: none; }
+      tr {
+        background: white;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      }
+      td {
+        border: none;
+        padding: 0.75rem;
+      }
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        color: #555;
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    #widgetPreview {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧱 Yotpo Widget Explorer + Viewer</h1>
+
+  <div>
+    <input id="appKeyInput" placeholder="Enter App Key (e.g. rj74UZEzEEqYa1gTFXC3BLbr9GzC5SKjKXKupEpg)" />
+    <button id="loadBtn">Load Widgets</button>
+  </div>
+
+  <div class="status" id="status">Awaiting App Key input…</div>
+  <div id="explorer"></div>
+  <div id="widgetPreview"></div>
+
+  <script>
+    const loadBtn = document.getElementById("loadBtn");
+    const status = document.getElementById("status");
+    const explorer = document.getElementById("explorer");
+    const preview = document.getElementById("widgetPreview");
+
+    loadBtn.addEventListener("click", () => {
+      const appKey = document.getElementById("appKeyInput").value.trim();
+      if (!appKey) return alert("Please enter an App Key.");
+
+      status.textContent = "⏳ Loading Yotpo loader script...";
+      explorer.innerHTML = "";
+      preview.innerHTML = "";
+
+      // Remove any old Yotpo loader scripts
+      document.querySelectorAll("script[data-yotpo-loader]").forEach(s => s.remove());
+
+      const script = document.createElement("script");
+      script.src = `https://cdn-widgetsrepository.yotpo.com/v1/loader/${appKey}`;
+      script.dataset.yotpoLoader = "true";
+      script.onload = () => {
+        const widgets = window.yotpoWidgetsContainer?.guids?.[appKey]?.config?.widgets;
+        if (!widgets) {
+          status.textContent = "⚠️ No widgets found or invalid App Key.";
+          return;
+        }
+
+        const widgetList = Object.values(widgets);
+        status.textContent = `✅ Loaded ${widgetList.length} widget(s).`;
+
+        let table = `
+          <table>
+            <thead>
+              <tr>
+                <th>Instance ID</th>
+                <th>Widget Type</th>
+                <th>Version</th>
+                <th>CSS Override</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        widgetList.forEach(w => {
+          // Extract version number from the templateAssetUrl (after "app.v0.")
+          let versionMatch = w.templateAssetUrl?.match(/app\.v0\.([^-]+-\d+)\.js/);
+          let version = versionMatch ? versionMatch[1] : "—";
+
+          table += `
+            <tr>
+              <td data-label="Instance ID">${w.instanceId}</td>
+              <td data-label="Widget Type">${w.className}</td>
+              <td data-label="Version">${version}</td>
+              <td data-label="CSS Override">${
+                w.cssOverrideAssetUrl
+                  ? `<a href="${w.cssOverrideAssetUrl}" target="_blank">View CSS</a>`
+                  : "—"
+              }</td>
+              <td data-label="Preview">
+                <button onclick="previewWidget('${appKey}','${w.instanceId}')">Preview</button>
+              </td>
+            </tr>`;
+        });
+
+        table += "</tbody></table>";
+        explorer.innerHTML = table;
+      };
+
+      script.onerror = () => {
+        status.textContent = "❌ Failed to load Yotpo loader. Check the App Key or network.";
+      };
+
+      document.body.appendChild(script);
+    });
+
+    // Preview widget
+    window.previewWidget = function(appKey, instanceId) {
+      preview.innerHTML = `<h2>Widget Preview (${instanceId})</h2>`;
+      const div = document.createElement("div");
+      div.classList.add("yotpo-widget-instance");
+      div.dataset.yotpoInstanceId = instanceId;
+      div.setAttribute("mode-preview", "true");
+      preview.appendChild(div);
+
+      try {
+        if (window.yotpoWidgetsContainer?.initWidget) {
+          window.yotpoWidgetsContainer.initWidget(instanceId, div);
+        }
+      } catch (err) {
+        console.warn("initWidget not ready:", err);
+      }
+
+      preview.scrollIntoView({ behavior: "smooth" });
+    };
+  </script>
+</body>
+</html>
