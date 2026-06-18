@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yotpo PS UGC - Asset Drive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link class="cdn-link" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans h-screen flex flex-col overflow-hidden">
+
+    <div id="toast-container" class="fixed top-4 right-4 z-[9999] flex flex-col gap-2"></div>
+
+    <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 max-w-md w-full mx-4 transform scale-95 transition-all duration-300">
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl border border-indigo-100">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Team Authentication</h3>
+                <p class="text-xs text-slate-500 mt-1">Provide your Personal Access Token to unlock the <b>yotpo-ps-ugc</b> production asset drive.</p>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Personal Access Token (PAT)</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-key absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="password" id="modal-token" placeholder="ghp_xxxxxxxxxxxx" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono">
+                    </div>
+                </div>
+
+                <button id="modal-connect-btn" onclick="validateAndConnect()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-3 rounded-xl shadow-md shadow-indigo-100 transition-all flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-plug"></i> Authenticate & Connect
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm z-10">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 text-white p-2 rounded-lg shadow-md shadow-indigo-100">
+                <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900">Customizations Asset Drive</h1>
+                <p class="text-xs text-slate-500 font-medium">yotpo-ps-ugc.github.io/assets CDN</p>
+            </div>
+        </div>
+        
+        <div id="account-status-area" class="flex items-center gap-3">
+            <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5">
+                <i class="fa-solid fa-key"></i> Connect Environment
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 flex overflow-hidden">
+        
+        <section class="w-full md:w-5/12 border-r border-slate-200 bg-white flex flex-col overflow-y-auto p-6 custom-scrollbar">
+            <div class="mb-5">
+                <h2 class="text-md font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-file-circle-plus text-indigo-500"></i> Upload Workspace
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Drag files or click below to upload directly to the managed <b>/assets/</b> directory folder.</p>
+            </div>
+
+            <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-slate-50/50 hover:bg-indigo-50/20 rounded-xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all group">
+                <div class="w-12 h-12 bg-white rounded-full border border-slate-200/60 shadow-sm flex items-center justify-center text-slate-400 group-hover:text-indigo-500 group-hover:scale-110 transition-all">
+                    <i class="fa-solid fa-arrow-up-from-bracket text-lg"></i>
+                </div>
+                <div class="text-center">
+                    <p class="text-sm font-semibold text-slate-700">Drag & drop files here</p>
+                    <p class="text-xs text-slate-400 mt-1">or <span class="text-indigo-600 font-medium underline">browse your device</span></p>
+                </div>
+                <input type="file" id="file-input" multiple class="hidden">
+            </div>
+
+            <div class="mt-3 flex items-center gap-4 px-1 text-[11px] text-slate-400 font-medium">
+                <span><i class="fa-solid fa-circle-info mr-1"></i> Max Size: 5MB</span>
+                <span><i class="fa-solid fa-circle-check mr-1"></i> Path Isolation: /assets/ directory (master)</span>
+            </div>
+
+            <div id="queue-container" class="hidden mt-6 flex-1 flex flex-col">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="queue-count">Queue (0 files)</h3>
+                    <button id="clear-queue-btn" onclick="clearQueue()" class="text-xs font-medium text-rose-500 hover:text-rose-600 flex items-center gap-1">
+                        <i class="fa-solid fa-trash-can"></i> Clear All
+                    </button>
+                </div>
+
+                <div id="preview-grid" class="grid grid-cols-1 gap-2.5 max-h-[340px] overflow-y-auto pr-1 custom-scrollbar">
+                    </div>
+
+                <button id="upload-btn" onclick="uploadQueueFiles()" class="mt-auto w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md shadow-indigo-100 transition-all flex items-center justify-center gap-2 text-sm mt-6">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Process & Push to GitHub
+                </button>
+            </div>
+        </section>
+
+        <section class="w-full md:w-7/12 bg-slate-50 flex flex-col overflow-hidden">
+            <div class="p-6 bg-white border-b border-slate-200 flex flex-col gap-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-md font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-folder-open text-amber-500"></i> Managed Assets Library
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Live assets served instantly via your custom assets domain container</p>
+                    </div>
+                    <div id="library-count" class="text-xs font-semibold bg-slate-100 px-2.5 py-1 rounded-full text-slate-600 border border-slate-200/50">
+                        0 Files Total
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="lib-search" oninput="filterLibrary()" placeholder="Filter through repository assets by name or type..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+            </div>
+
+            <div id="library-container" class="flex-1 p-6 overflow-y-auto custom-scrollbar">
+                <div id="library-empty" class="h-full flex flex-col items-center justify-center text-center p-8 text-slate-400">
+                    </div>
+                
+                <div id="library-list" class="hidden flex flex-col gap-2">
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const GH_OWNER = "yotpo-ps-ugc";
+        const GH_REPO = "yotpo-ps-ugc.github.io";
+        const TARGET_FOLDER = "assets";
+        const PAGES_DOMAIN = "https://yotpo-ps-ugc.github.io/assets";
+
+        let selectedFilesQueue = [];
+        let fetchedRepositoryFiles = [];
+        let assetAttributionMap = {}; 
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        const ALLOWED_NAME_REGEX = /^[a-zA-Z0-9_.-]+$/;
+        let isUploading = false;
+
+        let ghToken = "";
+        let currentUserName = "Team Member";
+        let lastKnownCommitSha = "";
+        let backgroundSyncTimer = null;
+        let isInitialLoad = true;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setupDragAndDrop();
+            ghToken = localStorage.getItem('gh-token') || "";
+
+            if (ghToken) {
+                setLibraryLoadingState();
+                synchronizeRepositoryDrive();
+                startBackgroundRepoListener();
+            } else {
+                isInitialLoad = false;
+                renderLibraryUI();
+                openAuthModal();
+            }
+        });
+
+        function setLibraryLoadingState() {
+            const emptyEl = document.getElementById('library-empty');
+            const listEl = document.getElementById('library-list');
+            emptyEl.innerHTML = `
+                <div class="flex flex-col items-center justify-center text-indigo-600 gap-3">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl"></i>
+                    <p class="text-sm font-semibold text-slate-600">Syncing with GitHub Repository...</p>
+                </div>`;
+            emptyEl.classList.remove('hidden');
+            listEl.classList.add('hidden');
+        }
+
+        function openAuthModal() {
+            document.getElementById('modal-token').value = ghToken;
+            const modal = document.getElementById('auth-modal');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modal.querySelector('div').classList.remove('scale-95');
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            modal.classList.add('pointer-events-none', 'opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+        }
+
+        async function validateAndConnect() {
+            const btn = document.getElementById('modal-connect-btn');
+            const tokenInput = document.getElementById('modal-token').value.trim();
+
+            if (!tokenInput) {
+                showToast("Personal Access Token is required", "error");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Authenticating...`;
+
+            try {
+                const userRes = await fetch("https://api.github.com/user", {
+                    headers: { "Authorization": `Bearer ${tokenInput}`, "Accept": "application/vnd.github+json" }
+                });
+
+                if (!userRes.ok) throw new Error("Invalid GitHub Personal Access Token");
+                const userData = await userRes.json();
+
+                ghToken = tokenInput;
+                currentUserName = userData.name || userData.login;
+                localStorage.setItem('gh-token', ghToken);
+
+                renderProfileHeader(userData);
+                closeAuthModal();
+                
+                setLibraryLoadingState();
+                await synchronizeRepositoryDrive();
+                startBackgroundRepoListener();
+                showToast("Workspace linked successfully", "success");
+
+            } catch (err) {
+                showToast("Connection rejected: " + err.message, "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-plug"></i> Authenticate & Connect`;
+            }
+        }
+
+        function renderProfileHeader(userData) {
+            currentUserName = userData.name || userData.login;
+            const accountArea = document.getElementById('account-status-area');
+            accountArea.innerHTML = `
+                <div class="flex items-center gap-3 pl-3 pr-2.5 py-1.5 bg-slate-50 border border-slate-200/80 rounded-xl">
+                    <div class="flex flex-col items-end">
+                        <span class="text-xs font-bold text-slate-800 leading-none">${currentUserName}</span>
+                        <span class="text-[10px] font-semibold text-emerald-600 flex items-center gap-1 mt-1 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-md">
+                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> ${GH_REPO}/${TARGET_FOLDER} (master)
+                        </span>
+                    </div>
+                    <img src="${userData.avatar_url}" class="w-8 h-8 rounded-lg border border-slate-200 shadow-sm object-cover">
+                    <button onclick="disconnectDrive()" class="text-slate-400 hover:text-rose-500 text-xs p-1 ml-1 transition-colors" title="Disconnect Drive">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function disconnectDrive() {
+            if (isUploading) return;
+            clearInterval(backgroundSyncTimer);
+            localStorage.clear();
+            ghToken = "";
+            fetchedRepositoryFiles = [];
+            assetAttributionMap = {};
+            lastKnownCommitSha = "";
+            currentUserName = "Team Member";
+            isInitialLoad = false;
+            
+            document.getElementById('account-status-area').innerHTML = `
+                <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-key"></i> Connect Environment
+                </button>`;
+                
+            renderLibraryUI();
+            openAuthModal();
+            showToast("Logged out successfully", "success");
+        }
+
+        async function synchronizeRepositoryDrive() {
+            try {
+                if (!document.querySelector('#account-status-area img') && ghToken) {
+                    const profileRes = await fetch("https://api.github.com/user", {
+                        headers: { "Authorization": `Bearer ${ghToken}` }
+                    });
+                    if (profileRes.ok) renderProfileHeader(await profileRes.json());
+                }
+
+                const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${TARGET_FOLDER}?ref=master`;
+                const response = await fetch(url, {
+                    headers: { "Authorization": `Bearer ${ghToken}`, "Accept": "application/vnd.github+json" }
+                });
+
+                if (response.status === 404) {
+                    fetchedRepositoryFiles = [];
+                    isInitialLoad = false;
+                    renderLibraryUI();
+                    return;
+                }
+
+                if (!response.ok) throw new Error(response.statusText);
+                
+                const data = await response.json();
+                fetchedRepositoryFiles = Array.isArray(data) ? data.filter(item => item.type === 'file') : [];
+                
+                await fetchAttributionMetadata();
+                
+                fetchedRepositoryFiles.sort((a, b) => {
+                    const indexA = assetAttributionMap[a.name]?.order ?? 9999;
+                    const indexB = assetAttributionMap[b.name]?.order ?? 9999;
+                    return indexA - indexB; 
+                });
+
+                isInitialLoad = false;
+                renderLibraryUI();
+            } catch (err) {
+                console.error("Directory synchronization failed:", err);
+                isInitialLoad = false;
+                renderLibraryUI();
+            }
+        }
+
+        // Formats ISO date into readable format: "Jun 18, 2026 • 06:27 PM"
+        function formatCommitDate(isoString) {
+            if (!isoString) return "";
+            try {
+                const d = new Date(isoString);
+                const optionsDate = { month: 'short', day: 'numeric', year: 'numeric' };
+                const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: true };
+                return `${d.toLocaleDateString('en-US', optionsDate)} • ${d.toLocaleTimeString('en-US', optionsTime)}`;
+            } catch (e) {
+                return "";
+            }
+        }
+
+        async function fetchAttributionMetadata() {
+            try {
+                const commitsUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/commits?sha=master&path=${TARGET_FOLDER}&per_page=50`;
+                const res = await fetch(commitsUrl, {
+                    headers: { "Authorization": `Bearer ${ghToken}`, "Accept": "application/vnd.github+json" }
+                });
+                
+                if (!res.ok) return;
+                const commits = await res.json();
+                
+                if(commits.length > 0 && !lastKnownCommitSha) {
+                    lastKnownCommitSha = commits[0].sha; 
+                }
+                
+                assetAttributionMap = {};
+                
+                commits.forEach((commit, commitOrderIndex) => {
+                    const authorName = commit.author ? commit.author.login : commit.commit.author.name;
+                    const avatarUrl = commit.author ? commit.author.avatar_url : '';
+                    const commitDate = commit.commit?.author?.date || '';
+                    
+                    if (commit.commit && commit.commit.message) {
+                        const msg = commit.commit.message;
+                        if (msg.includes('[') && msg.includes(']')) {
+                            const match = msg.match(/\[(.*?)\]/);
+                            if (match && match[1]) {
+                                const filename = match[1];
+                                if (!assetAttributionMap[filename]) {
+                                    assetAttributionMap[filename] = {
+                                        user: authorName,
+                                        avatar: avatarUrl || 'https://github.com/identicons/git.png',
+                                        date: formatCommitDate(commitDate),
+                                        order: commitOrderIndex
+                                    };
+                                }
+                            }
+                        }
+                    }
+                });
+
+                for (let i = 0; i < Math.min(commits.length, 12); i++) {
+                    const commit = commits[i];
+                    const authorName = commit.author ? commit.author.login : commit.commit.author.name;
+                    const avatarUrl = commit.author ? commit.author.avatar_url : '';
+                    const commitDate = commit.commit?.author?.date || '';
+                    
+                    try {
+                        const detailUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/commits/${commit.sha}`;
+                        const detailRes = await fetch(detailUrl, { headers: { "Authorization": `Bearer ${ghToken}` } });
+                        if (detailRes.ok) {
+                            const detailData = await detailRes.json();
+                            if (detailData.files) {
+                                detailData.files.forEach(f => {
+                                    if (f.filename.startsWith(TARGET_FOLDER + '/')) {
+                                        const nameOnly = f.filename.replace(TARGET_FOLDER + '/', '');
+                                        if (!assetAttributionMap[nameOnly]) {
+                                            assetAttributionMap[nameOnly] = {
+                                                user: authorName,
+                                                avatar: avatarUrl || 'https://github.com/identicons/git.png',
+                                                date: formatCommitDate(commitDate),
+                                                order: i
+                                            };
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    } catch(e){}
+                }
+            } catch (e) {
+                console.warn("Attribution extraction bypassed:", e);
+            }
+        }
+
+        function startBackgroundRepoListener() {
+            if (backgroundSyncTimer) clearInterval(backgroundSyncTimer);
+            
+            backgroundSyncTimer = setInterval(async () => {
+                if (!ghToken || isUploading) return;
+                try {
+                    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/commits?sha=master&per_page=1`, {
+                        headers: { "Authorization": `Bearer ${ghToken}`, "Accept": "application/vnd.github+json" }
+                    });
+                    if (res.ok) {
+                        const commits = await res.json();
+                        if (commits.length > 0 && commits[0].sha !== lastKnownCommitSha) {
+                            lastKnownCommitSha = commits[0].sha;
+                            await synchronizeRepositoryDrive();
+                            showToast("Asset Library refreshed with latest updates", "success");
+                        }
+                    }
+                } catch (e) {
+                    console.error("Background poller heartbeat bypassed:", e);
+                }
+            }, 10000); 
+        }
+
+        function setupDragAndDrop() {
+            const zone = document.getElementById('drop-zone');
+            const input = document.getElementById('file-input');
+
+            zone.addEventListener('click', () => { if(!isUploading) input.click(); });
+            input.addEventListener('change', (e) => handleSelectedFiles(e.target.files));
+
+            ['dragenter', 'dragover'].forEach(name => {
+                zone.addEventListener(name, (e) => { e.preventDefault(); if(!isUploading) zone.classList.add('border-indigo-500', 'bg-indigo-50/20'); }, false);
+            });
+            ['dragleave', 'drop'].forEach(name => {
+                zone.addEventListener(name, (e) => { e.preventDefault(); zone.classList.remove('border-indigo-500', 'bg-indigo-50/20'); }, false);
+            });
+            zone.addEventListener('drop', (e) => { if(!isUploading) handleSelectedFiles(e.dataTransfer.files); });
+        }
+
+        function handleSelectedFiles(files) {
+            if (isUploading) return;
+            if (!ghToken) {
+                showToast("Please authenticate first", "error");
+                openAuthModal();
+                return;
+            }
+            for (let file of files) {
+                let error = null;
+                if (file.size > MAX_FILE_SIZE) error = "Exceeds 5MB capacity limit thresholds.";
+                if (!ALLOWED_NAME_REGEX.test(file.name)) error = "Filename cannot contain spaces or special symbols.";
+                if (fetchedRepositoryFiles.some(f => f.name.toLowerCase() === file.name.toLowerCase())) {
+                    error = "Asset collision! File name already exists in assets folder.";
+                }
+
+                selectedFilesQueue.push({ 
+                    file, 
+                    error, 
+                    id: crypto.randomUUID(),
+                    status: 'queued', 
+                    message: error || 'Ready to push'
+                });
+            }
+            renderQueueUI();
+        }
+
+        function clearQueue() { if(isUploading) return; selectedFilesQueue = []; renderQueueUI(); }
+        function removeQueueItem(id) { if(isUploading) return; selectedFilesQueue = selectedFilesQueue.filter(item => item.id !== id); renderQueueUI(); }
+
+        function renderQueueUI() {
+            const container = document.getElementById('queue-container');
+            const grid = document.getElementById('preview-grid');
+            const counter = document.getElementById('queue-count');
+            
+            if (selectedFilesQueue.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            counter.innerText = `Queue (${selectedFilesQueue.length} items)`;
+            grid.innerHTML = '';
+
+            selectedFilesQueue.forEach(item => {
+                const card = document.createElement('div');
+                card.id = `card-${item.id}`;
+                card.className = `p-3 rounded-xl border flex items-center justify-between gap-3 transition-all duration-300 ${
+                    item.status === 'error' || item.error ? 'border-rose-200 bg-rose-50/30' : 
+                    item.status === 'success' ? 'border-emerald-200 bg-emerald-50/30' :
+                    ['encoding', 'pushing'].includes(item.status) ? 'border-amber-200 bg-amber-50/20' :
+                    'border-slate-200 bg-white'
+                }`;
+                
+                let iconClass = "fa-file-code text-indigo-500";
+                if (item.file.type.startsWith('image/')) iconClass = "fa-image text-emerald-500";
+                if (item.file.name.endsWith('.woff2') || item.file.name.endsWith('.ttf') || item.file.name.endsWith('.woff')) iconClass = "fa-font text-amber-500";
+
+                let previewElement = `<div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 text-md"><i class="fa-solid ${iconClass}"></i></div>`;
+                
+                if (!item.error && item.file.type.startsWith('image/')) {
+                    const localUrl = URL.createObjectURL(item.file);
+                    previewElement = `<img src="${localUrl}" class="w-10 h-10 rounded-lg object-cover bg-slate-100 border border-slate-200/60" onload="URL.revokeObjectURL('${localUrl}')">`;
+                }
+
+                let statusBadge = `<p class="text-[10px] text-slate-400 font-medium mt-0.5">${(item.file.size / 1024 / 1024).toFixed(2)} MB</p>`;
+                if (item.status === 'encoding') {
+                    statusBadge = `<p class="text-[10px] text-amber-600 font-semibold flex items-center gap-1 mt-0.5"><i class="fa-solid fa-circle-notch animate-spin"></i> Encoding assets...</p>`;
+                } else if (item.status === 'pushing') {
+                    statusBadge = `<p class="text-[10px] text-amber-600 font-semibold flex items-center gap-1 mt-0.5"><i class="fa-solid fa-spinner animate-spin"></i> Pushing to master branch...</p>`;
+                } else if (item.status === 'error' || item.error) {
+                    statusBadge = `<p class="text-[10px] font-semibold text-rose-500 flex items-center gap-1 mt-0.5"><i class="fa-solid fa-circle-exclamation"></i> ${item.message}</p>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 overflow-hidden min-w-0 flex-1">
+                        ${previewElement}
+                        <div class="overflow-hidden flex-1">
+                            <p class="text-xs font-semibold text-slate-800 truncate">${item.file.name}</p>
+                            ${statusBadge}
+                        </div>
+                    </div>
+                    ${!isUploading ? `
+                        <button onclick="removeQueueItem('${item.id}')" class="text-slate-400 hover:text-rose-500 p-1.5 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+                    ` : ''}
+                `;
+                grid.appendChild(card);
+            });
+
+            const hasErrors = selectedFilesQueue.some(i => i.error);
+            document.getElementById('upload-btn').disabled = hasErrors || isUploading;
+            
+            if (isUploading) {
+                document.getElementById('upload-btn').className = "mt-auto w-full bg-slate-100 text-slate-400 cursor-not-allowed font-semibold py-3 rounded-xl flex items-center justify-center text-sm";
+            } else {
+                document.getElementById('upload-btn').className = hasErrors
+                    ? "mt-auto w-full bg-slate-200 text-slate-400 cursor-not-allowed font-semibold py-3 rounded-xl flex items-center justify-center text-sm"
+                    : "mt-auto w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 text-sm transition-all";
+            }
+        }
+
+        async function uploadQueueFiles() {
+            if (selectedFilesQueue.some(i => i.error) || !ghToken || isUploading) return;
+
+            isUploading = true;
+            document.getElementById('clear-queue-btn').classList.add('hidden');
+            renderQueueUI();
+
+            const processingQueue = [...selectedFilesQueue];
+
+            for (let item of processingQueue) {
+                const queueIndex = selectedFilesQueue.findIndex(q => q.id === item.id);
+                if (queueIndex === -1) continue;
+
+                try {
+                    selectedFilesQueue[queueIndex].status = 'encoding';
+                    renderQueueUI();
+                    const base64Content = await convertFileToBase64(item.file);
+
+                    selectedFilesQueue[queueIndex].status = 'pushing';
+                    renderQueueUI();
+
+                    const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${TARGET_FOLDER}/${item.file.name}`;
+                    const response = await fetch(url, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": `Bearer ${ghToken}`,
+                            "Content-Type": "application/json",
+                            "Accept": "application/vnd.github+json"
+                        },
+                        body: JSON.stringify({
+                            message: `UGC CDN Upload: Added asset [${item.file.name}] (Uploaded by: ${currentUserName})`,
+                            content: base64Content,
+                            branch: "master"
+                        })
+                    });
+
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const responseData = await response.json();
+
+                    if(responseData.commit && responseData.commit.sha) {
+                        lastKnownCommitSha = responseData.commit.sha;
+                    }
+
+                    showToast(`Uploaded ${item.file.name}! Deployment is processing in the background...`, "success");
+
+                } catch (error) {
+                    showToast(`Failed to upload ${item.file.name}: ${error.message}`, "error");
+                }
+            }
+
+            isUploading = false;
+            document.getElementById('clear-queue-btn').classList.remove('hidden');
+            selectedFilesQueue = []; 
+            renderQueueUI();
+            renderLibraryUI();
+        }
+
+        function convertFileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const r = new FileReader();
+                r.readAsDataURL(file);
+                r.onload = () => resolve(r.result.split(',')[1]);
+                r.onerror = e => reject(e);
+            });
+        }
+
+        function renderLibraryUI() {
+            if (isInitialLoad) return;
+
+            const emptyEl = document.getElementById('library-empty');
+            const listEl = document.getElementById('library-list');
+            document.getElementById('library-count').innerText = `${fetchedRepositoryFiles.length} Files Total`;
+
+            if (!ghToken) {
+                emptyEl.innerHTML = `
+                    <i class="fa-solid fa-box-open text-4xl mb-3 text-slate-300"></i>
+                    <p class="text-sm font-semibold">Drive Locked or Disconnected</p>
+                    <p class="text-xs max-w-xs mt-1">Please authenticate using your Personal Access Token to inspect or utilize repository assets.</p>`;
+                emptyEl.classList.remove('hidden');
+                listEl.classList.add('hidden');
+                return;
+            }
+
+            if (fetchedRepositoryFiles.length === 0) {
+                emptyEl.innerHTML = `
+                    <i class="fa-solid fa-box-open text-4xl mb-3 text-slate-300"></i>
+                    <p class="text-sm font-semibold">No assets found in folder</p>
+                    <p class="text-xs max-w-xs mt-1">The /assets directory is empty or hasn't been instantiated yet.</p>`;
+                emptyEl.classList.remove('hidden');
+                listEl.classList.add('hidden');
+                return;
+            }
+
+            emptyEl.classList.add('hidden');
+            listEl.classList.remove('hidden');
+            filterLibrary();
+        }
+
+        function filterLibrary() {
+            const searchVal = document.getElementById('lib-search').value.toLowerCase().trim();
+            const listEl = document.getElementById('library-list');
+            listEl.innerHTML = '';
+
+            const filtered = fetchedRepositoryFiles.filter(item => item.name.toLowerCase().includes(searchVal));
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `<div class="text-center py-12 text-xs text-slate-400 font-medium">No files match your search filter criteria</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const productionUrl = `${PAGES_DOMAIN}/${item.name}`;
+                const row = document.createElement('div');
+                row.className = "bg-white border border-slate-200/80 rounded-xl p-3 flex items-center justify-between gap-4 shadow-sm hover:shadow-md hover:border-slate-300 transition-all group";
+
+                let typeIcon = "fa-file-code text-indigo-500 bg-indigo-50";
+                if (item.name.match(/\.(jpeg|jpg|png|gif|webp|ico)$/i)) typeIcon = "fa-image text-emerald-500 bg-emerald-50";
+                if (item.name.match(/\.(woff2|ttf|woff|otf)$/i)) typeIcon = "fa-font text-amber-500 bg-amber-50";
+                if (item.name.endsWith('.svg')) typeIcon = "fa-bezier-curve text-sky-500 bg-sky-50";
+
+                const attribution = assetAttributionMap[item.name] || { user: 'Unknown', avatar: '', date: '' };
+                let authorBadge = `<span class="text-[10px] bg-slate-100 text-slate-500 font-medium px-1.5 py-0.5 rounded flex items-center gap-1 max-w-max border border-slate-200/40"><i class="fa-solid fa-user text-[9px]"></i> Shared via legacy</span>`;
+                
+                // Construct inline label containing the user info and timestamp string context
+                const timeStringLabel = attribution.date ? ` • ${attribution.date}` : "";
+
+                if (attribution.avatar) {
+                    authorBadge = `
+                        <div class="flex items-center gap-1 mt-1 shrink-0" title="Uploaded to drive by ${attribution.user}">
+                            <img src="${attribution.avatar}" class="w-3.5 h-3.5 rounded-full object-cover border border-slate-200 bg-slate-50">
+                            <span class="text-[10px] text-slate-400 font-semibold truncate max-w-md">
+                                <b class="text-slate-500 font-bold">${attribution.user}</b>${timeStringLabel}
+                            </span>
+                        </div>`;
+                } else if (attribution.user !== 'Unknown') {
+                    authorBadge = `
+                        <div class="flex items-center gap-1 mt-1 shrink-0">
+                            <div class="w-3.5 h-3.5 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-[8px] text-slate-400 font-bold">${attribution.user[0].toUpperCase()}</div>
+                            <span class="text-[10px] text-slate-400 font-semibold truncate max-w-md">
+                                <b class="text-slate-500 font-bold">${attribution.user}</b>${timeStringLabel}
+                            </span>
+                        </div>`;
+                }
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-3 overflow-hidden min-w-0 flex-1">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-sm shrink-0 ${typeIcon}">
+                            <i class="fa-solid"></i>
+                        </div>
+                        <div class="overflow-hidden flex-1">
+                            <p class="text-xs font-bold text-slate-800 truncate" title="${item.name}">${item.name}</p>
+                            <p class="text-[10px] text-slate-400 truncate mt-0.5 font-mono max-w-sm">${productionUrl}</p>
+                            ${authorBadge}
+                        </div>
+                    </div>
+                    <button onclick="copyToClipboard('${productionUrl}', this)" class="bg-slate-50 hover:bg-indigo-600 border border-slate-200 hover:border-indigo-600 text-slate-700 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-regular fa-copy"></i> Copy Link
+                    </button>
+                `;
+                
+                row.querySelector('.fa-solid').classList.add(...typeIcon.split(' ')[0].split(' '));
+                listEl.appendChild(row);
+            });
+        }
+
+        function copyToClipboard(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("CDN Link copied successfully!", "success");
+                const defaultHtml = btnElement.innerHTML;
+                btnElement.className = "bg-emerald-600 border border-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-sm";
+                btnElement.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+                setTimeout(() => {
+                    btnElement.className = "bg-slate-50 hover:bg-indigo-600 border border-slate-200 text-slate-700 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-sm";
+                    btnElement.innerHTML = defaultHtml;
+                }, 1800);
+            }).catch(() => {
+                showToast("Clipboard copy failed", "error");
+            });
+        }
+
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-3 rounded-xl text-xs font-semibold text-white shadow-lg flex items-center gap-2 transition-all duration-300 transform translate-y-2 opacity-0 z-[9999]`;
+            
+            if (type === 'success') {
+                toast.classList.add('bg-slate-900', 'border', 'border-slate-800');
+                toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i> ${message}`;
+            } else {
+                toast.classList.add('bg-rose-600');
+                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-sm"></i> ${message}`;
+            }
+
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => { toast.remove(); }, 300);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
