@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Client Storefront Canvas</title>
+  <style>
+    :root { --primary-color: #006aff; --dark-color: #1a1a1a; --border-color: #e1e4e8; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; background-color: #ffffff; color: var(--dark-color); }
+    .site-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+    .site-header { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; border-bottom: 1px solid var(--border-color); background: #ffffff; position: relative; }
+    .site-logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: var(--dark-color); display: flex; align-items: center; }
+    .site-logo span { color: var(--primary-color); }
+    .site-header-actions { display: flex; align-items: center; gap: 1.5rem; }
+    .site-nav { display: flex; gap: 0.5rem; align-items: center; }
+    .menu-toggle { display: none; background: none; border: none; font-size: 1.6rem; pointer; color: var(--dark-color); }
+    .nav-item { background: none; border: none; font-size: 0.95rem; font-weight: 500; color: #444; cursor: pointer; padding: 0.6rem 1.2rem; border-radius: 6px; transition: all 0.2s; }
+    .nav-item:hover, .nav-item.active { color: var(--primary-color); background: #f0f6ff; }
+    .main-display-area { padding: 3rem 2rem; width: 100%; background: #ffffff; flex-grow: 1; }
+    .widget-title-badge { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; text-transform: uppercase; }
+    #nativeTabAnchor { position: absolute; width: 0; height: 0; overflow: hidden; }
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .site-nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff; padding: 1rem; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05); z-index: 90; gap: 0.75rem; }
+      .site-nav.mobile-open { display: flex; }
+      .nav-item { width: 100%; text-align: left; padding: 0.8rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-container" id="siteContainer">
+    <header class="site-header">
+      <div class="site-logo"><img src="data:image/png;base64,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" style="max-height: 40px; width: auto; object-fit: contain;"></div>
+      <div class="site-header-actions">
+        <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">☰</button>
+        <nav class="site-nav" id="siteNav">
+<button class="nav-item" data-instance-id="1169231" data-clean-name="Reviews Main Widget" data-yotpo-product-id="mig005">Reviews Main Widget</button>
+<button class="nav-item" data-instance-id="1169232" data-clean-name="Reviews Star Ratings Widget" data-yotpo-product-id="mig005">Reviews Star Ratings Widget</button>
+
+        </nav>
+      </div>
+    </header>
+    <main class="main-display-area" id="mainDisplayArea">
+      <div id="widgetBadge" style="display:none;"><span class="widget-title-badge" id="widgetTypeLabel">Widget Type</span></div>
+      <div id="pageWidgetLocation"></div>
+    </main>
+  </div>
+  <div id="nativeTabAnchor">
+
+  </div>
+  <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/7j8v8vMN8zpbWNsv0vB2tQJmAHTz84efvpcNqQzg"></script>
+  <script>
+    const siteNav = document.getElementById("siteNav");
+    const menuToggleBtn = document.getElementById("menuToggleBtn");
+    const pageWidgetLocation = document.getElementById("pageWidgetLocation");
+    const widgetBadge = document.getElementById("widgetBadge");
+    const widgetTypeLabel = document.getElementById("widgetTypeLabel");
+    menuToggleBtn.addEventListener("click", () => { siteNav.classList.toggle("mobile-open"); });
+    document.querySelectorAll(".nav-item").forEach(btn => {
+        const instanceId = btn.dataset.instanceId;
+        const cleanName = btn.dataset.cleanName;
+        btn.addEventListener("click", () => {
+            siteNav.classList.remove("mobile-open");
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            pageWidgetLocation.innerHTML = "";
+            widgetBadge.style.display = "block";
+            widgetTypeLabel.textContent = "Live Inline: " + cleanName;
+            const targetDiv = document.createElement("div");
+            targetDiv.className = "yotpo-widget-instance";
+            targetDiv.dataset.yotpoInstanceId = instanceId;
+            
+            const commerceWidgets = ["ReviewsMainWidget", "ReviewsStarRatingsWidget", "QuestionsAndAnswers"];
+            const isCommerce = commerceWidgets.some(cls => btn.dataset.cleanName.replace(/\s+/g, "") === cls);
+            const hasProdId = btn.hasAttribute('data-yotpo-product-id');
+            
+            if (!(isCommerce && hasProdId)) {
+                targetDiv.setAttribute("mode-preview", "true");
+            }
+            if(hasProdId) {
+                targetDiv.setAttribute('data-yotpo-product-id', btn.getAttribute('data-yotpo-product-id'));
+            }
+            pageWidgetLocation.appendChild(targetDiv);
+            try {
+                if (window.yotpoWidgetsContainer?.initWidget) {
+                    window.yotpoWidgetsContainer.initWidget(instanceId, targetDiv);
+                }
+            } catch(e) { console.warn("Init load cycle waiting...", e); }
+        });
+    });
+    window.addEventListener('load', () => {
+
+        const firstBtn = siteNav.querySelector('.nav-item');
+        if(firstBtn) firstBtn.click();
+    });
+  </script>
+</body>
+</html>
