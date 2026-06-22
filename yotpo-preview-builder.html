@@ -670,11 +670,16 @@
 
                 for (let f of filteredFiles) {
                     let dateLabelStr = "Legacy Deployment";
+                    let sortTimestampValue = 0; // Epoch fallback fallback
+                    
                     let match = f.name.match(/_(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})/);
                     if (!match) match = f.name.match(/-(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})/);
                     
                     if (match) {
                         dateLabelStr = `${match[1]}-${match[2]}-${match[3]} • ${match[4]}:${match[5]} PST`;
+                        // Create a pure continuous numeric value out of the timestamp for high-fidelity comparison logic
+                        // e.g. "20260622163501" as a clean numerical integer
+                        sortTimestampValue = parseInt(`${match[1]}${match[2]}${match[3]}${match[4]}${match[5]}${match[6]}`, 10);
                     }
 
                     const extractedKeyPart = f.name.split('-')[0] || "layout";
@@ -684,11 +689,14 @@
                         keyIdentifier: extractedKeyPart, 
                         cdnUrl: `${PREVIEW_DOMAIN_URL}/${f.name}`,
                         author: fileAuthorMap[f.name] || "yotpo-ps-ugc",
-                        timestamp: dateLabelStr
+                        timestamp: dateLabelStr,
+                        sortWeight: sortTimestampValue // Bound parameter comparison metric
                     });
                 }
                 
-                cachedHistoricalFiles.reverse();
+                // CRITICAL FIX: Sort numerically descending by the raw file timestamp weight values
+                cachedHistoricalFiles.sort((a, b) => b.sortWeight - a.sortWeight);
+                
                 renderHistoryLogsUI();
             } catch (e) { console.warn("Archive logs build hold", e); }
         }
