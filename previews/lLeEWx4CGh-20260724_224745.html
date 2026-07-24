@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Client Storefront Canvas</title>
+  <style>
+    :root { --primary-color: #006aff; --dark-color: #1a1a1a; --border-color: #e1e4e8; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; background-color: #ffffff; color: var(--dark-color); }
+    .site-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+    .site-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.75rem; border-bottom: 1px solid var(--border-color); background: #ffffff; position: relative; }
+    .site-logo { font-size: 1.3rem; font-weight: 800; tracking: -0.5px; color: var(--dark-color); display: flex; align-items: center; height: 36px; overflow: hidden; }
+    .site-logo img { height: 36px !important; max-height: 36px !important; width: auto !important; display: block !important; object-fit: contain !important; }
+    .site-header-actions { display: flex; align-items: center; gap: 1rem; }
+    .site-nav { display: flex; gap: 0.25rem; align-items: center; }
+    .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--dark-color); }
+    .nav-item { background: none; border: none; font-size: 0.9rem; font-weight: 500; color: #444444; cursor: pointer; padding: 0.4rem 0.8rem; border-radius: 5px; transition: all 0.2s; white-space: nowrap; }
+    .nav-item:hover, .nav-item.active { color: var(--primary-color); background: #f0f6ff; }
+    .main-display-area { padding: 2.5rem 1.75rem; width: 100%; background: #ffffff; flex-grow: 1; }
+    .widget-title-badge { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; text-transform: uppercase; }
+    #nativeTabAnchor { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .stars_v3 { padding: 20px; display: flex; gap: 20px; justify-content: space-between; flex-wrap: wrap; }
+    .stars_v3 .star-card { width: 45%; text-align: center; background: #f2f2f2; flex-grow: 1; border-radius: 20px; display: flex; flex-direction: column; align-items: center; padding: 24px 16px; transition: background-color 0.2s; }
+    .stars_v3 .star-header { margin: 0; font-size: 23px; font-family: "trebuchet ms", sans-serif; margin-bottom: 12px; color: var(--dark-color); }
+    @media (max-width: 1024px) {
+      .menu-toggle { display: block; }
+      .site-nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff; padding: 1rem; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05); z-index: 90; gap: 0.5rem; }
+      .site-nav.mobile-open { display: flex; }
+      .nav-item { width: 100%; text-align: left; padding: 0.75rem 1rem; }
+    }
+    @media only screen and (max-width: 600px) {
+      .wrapper.stars_v3 { padding: 0 !important; margin: 20px 0 0; gap: 16px; }
+      .stars_v3 .star-card { width: 100% !important; min-width: 100% !important; flex-basis: 100% !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-container" id="siteContainer">
+    <header class="site-header">
+      <div class="site-logo"><img src="https://yotpo-ps-ugc.github.io/templates/yotpo.png" style="height: 36px !important; max-height: 36px !important; width: auto !important; max-width: 180px !important; display: block !important; object-fit: contain !important;"></div>
+      <div class="site-header-actions">
+        <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">☰</button>
+        <nav class="site-nav" id="siteNav">
+<button class="nav-item" data-instance-id="1357405" data-clean-name="Reviews Main Widget" >Reviews Main Widget</button>
+<button class="nav-item" data-instance-id="1357406" data-clean-name="Reviews Star Ratings Widget" >Reviews Star Ratings Widget</button>
+
+        </nav>
+      </div>
+    </header>
+    <main class="main-display-area" id="mainDisplayArea">
+      <div id="widgetBadge" style="display:none;"><span class="widget-title-badge" id="widgetTypeLabel">Widget Type</span></div>
+      <div id="pageWidgetLocation"></div>
+    <div id="starRatingSpecialContainer" class="wrapper stars_v3">
+      <section class="star-card">
+        <h1 class="star-header">Product Star Rating</h1>
+        <div class="yotpo-widget-instance" data-yotpo-instance-id="1357406" data-yotpo-section-id="product" mode-preview="true" ></div>
+      </section>
+      <section class="star-card">
+        <h1 class="star-header">Collections Star Rating</h1>
+        <div class="yotpo-widget-instance" data-yotpo-instance-id="1357406" data-yotpo-section-id="collection" mode-preview="true" ></div>
+      </section>
+    </div>
+    </main>
+  </div>
+  <div id="nativeTabAnchor">
+
+  </div>
+  <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/lLeEWx4CGhng8StJ5Pv3mWXoovdHhsBOgrsaa9kH"></script>
+  <script>
+    const siteNav = document.getElementById("siteNav");
+    const menuToggleBtn = document.getElementById("menuToggleBtn");
+    const pageWidgetLocation = document.getElementById("pageWidgetLocation");
+    const widgetBadge = document.getElementById("widgetBadge");
+    const widgetTypeLabel = document.getElementById("widgetTypeLabel");
+    const specialStarContainer = document.getElementById("starRatingSpecialContainer");
+    menuToggleBtn.addEventListener("click", () => { siteNav.classList.toggle("mobile-open"); });
+    document.querySelectorAll(".nav-item").forEach(btn => {
+        const instanceId = btn.dataset.instanceId;
+        const cleanName = btn.dataset.cleanName;
+        btn.addEventListener("click", () => {
+            siteNav.classList.remove("mobile-open");
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            pageWidgetLocation.innerHTML = "";
+            if(specialStarContainer) specialStarContainer.style.display = "none";
+            widgetBadge.style.display = "block";
+            widgetTypeLabel.textContent = "Live Inline: " + cleanName;
+            const compactedClassName = cleanName.replace(/\s+/g, "");
+            if(compactedClassName === "ReviewsStarRatingsWidget" && specialStarContainer) {
+                specialStarContainer.style.display = "flex";
+                try {
+                    if (window.yotpoWidgetsContainer?.initWidget) {
+                        specialStarContainer.querySelectorAll(".yotpo-widget-instance").forEach(node => {
+                            window.yotpoWidgetsContainer.initWidget(instanceId, node);
+                        });
+                    }
+                } catch(e) { console.warn("Special stars init load waiting...", e); }
+            } else {
+                const targetDiv = document.createElement("div");
+                targetDiv.className = "yotpo-widget-instance";
+                targetDiv.dataset.yotpoInstanceId = instanceId;
+                const commerceWidgets = ["ReviewsMainWidget", "ReviewsStarRatingsWidget", "QuestionsAndAnswers"];
+                const isCommerce = commerceWidgets.some(cls => compactedClassName === cls);
+                const hasProdId = btn.hasAttribute('data-yotpo-product-id');
+                if (!(isCommerce && hasProdId)) { targetDiv.setAttribute("mode-preview", "true"); }
+                if(hasProdId) { targetDiv.setAttribute('data-yotpo-product-id', btn.getAttribute('data-yotpo-product-id')); }
+                pageWidgetLocation.appendChild(targetDiv);
+                try {
+                    if (window.yotpoWidgetsContainer?.initWidget) {
+                        window.yotpoWidgetsContainer.initWidget(instanceId, targetDiv);
+                    }
+                } catch(e) { console.warn("Init load cycle waiting...", e); }
+            }
+        });
+    });
+    window.addEventListener('load', () => {
+
+        const firstBtn = siteNav.querySelector('.nav-item');
+        if(firstBtn) firstBtn.click();
+    });
+  </script>
+</body>
+</html>
