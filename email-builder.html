@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Report Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .input-panel {
+            background: #f5f5f5;
+            border-right: 1px solid #ddd;
+        }
+
+        .preview-panel {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            background: #fafafa;
+            padding: 0 20px;
+        }
+
+        .preview-tabs button {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .preview-tabs button.active {
+            color: #0142E6;
+            border-bottom-color: #0142E6;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .section-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #0142E6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0136c2;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-block {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .block-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .block-type {
+            font-size: 12px;
+            background: #e8edf6;
+            color: #0142E6;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .block-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            color: #666;
+        }
+
+        .btn-icon:hover {
+            color: #333;
+        }
+
+        .preview-email {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .code-view {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            padding: 16px 20px;
+            background: #fafafa;
+            border-top: 1px solid #ddd;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .file-input-label:hover {
+            background: #f8f9fa;
+        }
+
+        .image-preview {
+            margin-top: 8px;
+            max-width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .item-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .item-row input {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Input Panel -->
+        <div class="panel input-panel">
+            <h2 style="margin-bottom: 24px; color: #333;">Email Report Builder</h2>
+
+            <!-- Email Settings -->
+            <div class="section-card">
+                <div class="section-title">Email Settings</div>
+                <div class="form-group">
+                    <label class="form-label">Email Title (for page title)</label>
+                    <input type="text" class="form-input" id="emailTitle" placeholder="e.g., Weekly Update">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Greeting</label>
+                    <input type="text" class="form-input" id="greeting" placeholder="e.g., Hi Team, Hello Nir">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Opening Message (optional)</label>
+                    <textarea class="form-textarea" id="openingMessage" placeholder="e.g., Please find the latest updates below..." style="min-height: 60px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Banner Image URL</label>
+                    <input type="text" class="form-input" id="bannerUrl" placeholder="Paste image URL">
+                    <img id="bannerPreview" class="image-preview hidden" />
+                </div>
+            </div>
+
+            <!-- Content Blocks -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">Content Blocks</div>
+                </div>
+                <div id="contentBlocks"></div>
+                <div style="display: flex; gap: 8px;">
+                    <select id="blockType" class="form-select">
+                        <option value="text">Text Block</option>
+                        <option value="heading">Heading</option>
+                        <option value="image">Image Block</option>
+                        <option value="chart">Chart Block</option>
+                        <option value="list">List Block</option>
+                        <option value="divider">Divider</option>
+                        <option value="highlight">Highlights</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="addBlock()">+ Add</button>
+                </div>
+            </div>
+
+            <!-- Colors -->
+            <div class="section-card">
+                <div class="section-title">Colors</div>
+                <div class="form-group">
+                    <label class="form-label">Body Background</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="color" id="bodyColor" value="#E8EDF6" style="width: 50px; height: 36px; border: 1px solid #ddd; border-radius: 4px;">
+                        <input type="text" class="form-input" id="bodyColorText" value="#E8EDF6" style="flex: 1;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Footer Background</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="color" id="footerColor" value="#0142E6" style="width: 50px; height: 36px; border: 1px solid #ddd; border-radius: 4px;">
+                        <input type="text" class="form-input" id="footerColorText" value="#0142E6" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Settings -->
+            <div class="section-card">
+                <div class="section-title">Footer</div>
+                <div class="form-group">
+                    <label class="form-label">Footer Message</label>
+                    <textarea class="form-textarea" id="footerMessage" placeholder="e.g., We appreciate your feedback..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Signature Name</label>
+                    <input type="text" class="form-input" id="signatureName" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Signature Title</label>
+                    <input type="text" class="form-input" id="signatureTitle" placeholder="Your Title">
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="panel preview-panel">
+            <div class="preview-tabs">
+                <button class="active" onclick="switchTab('preview')">Preview</button>
+                <button onclick="switchTab('code')">HTML Code</button>
+            </div>
+            <div class="preview-content">
+                <div id="previewView" class="preview-email"></div>
+                <div id="codeView" class="code-view hidden"></div>
+            </div>
+            <div class="action-bar">
+                <button class="btn btn-primary" onclick="copyToClipboard()">📋 Copy for Gmail</button>
+                <button class="btn btn-secondary" onclick="downloadHTML()">⬇️ Download HTML</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let blocks = [];
+        let currentTab = 'preview';
+
+        // Initialize
+        document.getElementById('emailTitle').value = 'Weekly Update';
+        document.getElementById('greeting').value = 'Hi Team,';
+        document.getElementById('openingMessage').value = '';
+        document.getElementById('footerMessage').value = 'We appreciate your feedback and look forward to hearing any thoughts or suggestions you may have.';
+        document.getElementById('signatureName').value = 'Jan Francis Jadloc';
+        document.getElementById('signatureTitle').value = 'Customizations UGC Team Lead';
+
+        // Color sync handlers
+        document.getElementById('bodyColor').addEventListener('input', function(e) {
+            document.getElementById('bodyColorText').value = e.target.value;
+            updatePreview();
+        });
+        document.getElementById('bodyColorText').addEventListener('input', function(e) {
+            document.getElementById('bodyColor').value = e.target.value;
+            updatePreview();
+        });
+        document.getElementById('footerColor').addEventListener('input', function(e) {
+            document.getElementById('footerColorText').value = e.target.value;
+            updatePreview();
+        });
+        document.getElementById('footerColorText').addEventListener('input', function(e) {
+            document.getElementById('footerColor').value = e.target.value;
+            updatePreview();
+        });
+
+        // Banner URL handler
+        document.getElementById('bannerUrl').addEventListener('input', updatePreview);
+        document.getElementById('emailTitle').addEventListener('input', updatePreview);
+        document.getElementById('greeting').addEventListener('input', updatePreview);
+        document.getElementById('openingMessage').addEventListener('input', updatePreview);
+        document.getElementById('footerMessage').addEventListener('input', updatePreview);
+        document.getElementById('signatureName').addEventListener('input', updatePreview);
+        document.getElementById('signatureTitle').addEventListener('input', updatePreview);
+
+        function addBlock() {
+            const type = document.getElementById('blockType').value;
+            const block = {
+                id: Date.now(),
+                type: type,
+                data: getDefaultBlockData(type)
+            };
+            blocks.push(block);
+            renderBlocks();
+            updatePreview();
+        }
+
+        function getDefaultBlockData(type) {
+            switch(type) {
+                case 'text':
+                    return { content: '' };
+                case 'heading':
+                    return { text: '' };
+                case 'image':
+                    return { imageUrl: '' };
+                case 'chart':
+                    return { title: '', description: '', imageUrl: '', summary: '' };
+                case 'list':
+                    return { title: '', items: [''] };
+                case 'divider':
+                    return {};
+                case 'highlight':
+                    return { title: '', items: [{ label: '', text: '' }] };
+                default:
+                    return {};
+            }
+        }
+
+        function renderBlocks() {
+            const container = document.getElementById('contentBlocks');
+            container.innerHTML = blocks.map((block, index) => renderBlockInput(block, index)).join('');
+        }
+
+        function renderBlockInput(block, index) {
+            const typeLabel = block.type.charAt(0).toUpperCase() + block.type.slice(1);
+
+            let content = '';
+            switch(block.type) {
+                case 'text':
+                    content = `
+                        <div class="form-group">
+                            <label class="form-label">Text Content</label>
+                            <textarea class="form-textarea" placeholder="Enter text content. Use **bold** for bold text and [link text](url) for links"
+                                onchange="updateBlockData(${index}, 'content', this.value)">${block.data.content || ''}</textarea>
+                            <small style="color: #666; font-size: 11px; margin-top: 4px; display: block;">
+                                Use **text** for bold, [link text](url) for links
+                            </small>
+                        </div>
+                    `;
+                    break;
+                case 'heading':
+                    content = `
+                        <div class="form-group">
+                            <label class="form-label">Heading Text</label>
+                            <input type="text" class="form-input" placeholder="Enter heading text"
+                                value="${block.data.text || ''}"
+                                onchange="updateBlockData(${index}, 'text', this.value)">
+                        </div>
+                    `;
+                    break;
+                case 'image':
+                    content = `
+                        <div class="form-group">
+                            <label class="form-label">Image URL</label>
+                            <input type="text" class="form-input" placeholder="Paste image URL"
+                                value="${block.data.imageUrl || ''}"
+                                onchange="updateBlockData(${index}, 'imageUrl', this.value)">
+                        </div>
+                    `;
+                    break;
+                case 'chart':
+                    content = `
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-input" value="${block.data.title || ''}"
+                                onchange="updateBlockData(${index}, 'title', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-textarea" onchange="updateBlockData(${index}, 'description', this.value)">${block.data.description || ''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Chart Image URL</label>
+                            <input type="text" class="form-input" placeholder="Paste image URL"
+                                value="${block.data.imageUrl || ''}"
+                                onchange="updateBlockData(${index}, 'imageUrl', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Summary</label>
+                            <textarea class="form-textarea" onchange="updateBlockData(${index}, 'summary', this.value)">${block.data.summary || ''}</textarea>
+                        </div>
+                    `;
+                    break;
+                case 'list':
+                    content = `
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-input" value="${block.data.title || ''}"
+                                onchange="updateBlockData(${index}, 'title', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">List Items (one per line)</label>
+                            <textarea class="form-textarea" onchange="updateBlockData(${index}, 'items', this.value.split('\\n'))">${(block.data.items || []).join('\n')}</textarea>
+                        </div>
+                    `;
+                    break;
+                case 'highlight':
+                    content = `
+                        <div class="form-group">
+                            <label class="form-label">Section Title</label>
+                            <input type="text" class="form-input" value="${block.data.title || ''}"
+                                onchange="updateBlockData(${index}, 'title', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Highlights (Label: Text format, one per line)</label>
+                            <textarea class="form-textarea" placeholder="Label: Text"
+                                onchange="parseHighlights(${index}, this.value)">${(block.data.items || []).map(i => `${i.label}: ${i.text}`).join('\n')}</textarea>
+                        </div>
+                    `;
+                    break;
+            }
+
+            return `
+                <div class="block-item">
+                    <div class="block-header">
+                        <span class="block-type">${typeLabel}</span>
+                        <div class="block-actions">
+                            ${index > 0 ? `<button class="btn-icon" onclick="moveBlock(${index}, -1)" title="Move Up">↑</button>` : ''}
+                            ${index < blocks.length - 1 ? `<button class="btn-icon" onclick="moveBlock(${index}, 1)" title="Move Down">↓</button>` : ''}
+                            <button class="btn btn-danger" onclick="removeBlock(${index})">Remove</button>
+                        </div>
+                    </div>
+                    ${content}
+                </div>
+            `;
+        }
+
+        function updateBlockData(index, key, value) {
+            blocks[index].data[key] = value;
+            updatePreview();
+        }
+
+        function parseHighlights(index, text) {
+            const items = text.split('\n').filter(l => l.trim()).map(line => {
+                const parts = line.split(':');
+                return {
+                    label: parts[0]?.trim() || '',
+                    text: parts.slice(1).join(':').trim() || ''
+                };
+            });
+            blocks[index].data.items = items;
+            updatePreview();
+        }
+
+        function handleImageUpload(index, input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    blocks[index].data.imageUrl = e.target.result;
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function moveBlock(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < blocks.length) {
+                [blocks[index], blocks[newIndex]] = [blocks[newIndex], blocks[index]];
+                renderBlocks();
+                updatePreview();
+            }
+        }
+
+        function removeBlock(index) {
+            blocks.splice(index, 1);
+            renderBlocks();
+            updatePreview();
+        }
+
+        function parseTextFormatting(text) {
+            // Convert **bold** to <strong>bold</strong>
+            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            // Convert [link text](url) to <a href="url">link text</a>
+            text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" style="color: #0142E6; text-decoration: none;">$1</a>');
+            return text;
+        }
+
+        function generateHTML() {
+            const title = document.getElementById('emailTitle').value;
+            const greeting = document.getElementById('greeting').value;
+            const openingMessage = document.getElementById('openingMessage').value;
+            const bannerUrl = document.getElementById('bannerUrl').value;
+            const bodyColor = document.getElementById('bodyColorText').value;
+            const footerColor = document.getElementById('footerColorText').value;
+            const footerMsg = document.getElementById('footerMessage').value;
+            const sigName = document.getElementById('signatureName').value;
+            const sigTitle = document.getElementById('signatureTitle').value;
+
+            let contentHTML = '';
+
+            blocks.forEach(block => {
+                switch(block.type) {
+                    case 'text':
+                        if (block.data.content) {
+                            contentHTML += `
+                                <tr>
+                                    <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;">${parseTextFormatting(block.data.content)}</td>
+                                </tr>
+                                <tr height="10"></tr>
+                            `;
+                        }
+                        break;
+                    case 'heading':
+                        if (block.data.text) {
+                            contentHTML += `
+                                <tr>
+                                    <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;"><strong>${block.data.text}</strong></td>
+                                </tr>
+                                <tr height="10"></tr>
+                            `;
+                        }
+                        break;
+                    case 'image':
+                        if (block.data.imageUrl) {
+                            contentHTML += `
+                                <tr>
+                                    <td><img width="600" src="${block.data.imageUrl}" style="vertical-align: middle; max-width: 100%;"></td>
+                                </tr>
+                                <tr height="15"></tr>
+                            `;
+                        }
+                        break;
+                    case 'chart':
+                        contentHTML += `
+                            <tr>
+                                <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;"><strong>${block.data.title}</strong></td>
+                            </tr>
+                            <tr height="5"></tr>
+                            <tr>
+                                <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;">${block.data.description}</td>
+                            </tr>
+                            <tr height="15"></tr>
+                            ${block.data.imageUrl ? `
+                            <tr>
+                                <td><img width="600" src="${block.data.imageUrl}" style="vertical-align: middle; max-width: 100%;"></td>
+                            </tr>
+                            <tr height="15"></tr>
+                            ` : ''}
+                            <tr>
+                                <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;"><strong>Summary:</strong> ${block.data.summary}</td>
+                            </tr>
+                            <tr height="10"></tr>
+                        `;
+                        break;
+                    case 'list':
+                        const items = (block.data.items || []).filter(i => i.trim()).map(item => `<li>${item}</li>`).join('');
+                        if (block.data.title || items) {
+                            contentHTML += `
+                                ${block.data.title ? `
+                                <tr>
+                                    <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;"><strong>${block.data.title}</strong></td>
+                                </tr>
+                                <tr height="5"></tr>
+                                ` : ''}
+                                <tr>
+                                    <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;">
+                                        <ul style="margin: 0; padding-left: 20px;">
+                                            ${items}
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr height="15"></tr>
+                            `;
+                        }
+                        break;
+                    case 'divider':
+                        contentHTML += `
+                            <tr height="10"></tr>
+                            <tr>
+                                <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;"><hr></td>
+                            </tr>
+                            <tr height="10"></tr>
+                        `;
+                        break;
+                    case 'highlight':
+                        const highlights = (block.data.items || []).filter(i => i.label && i.text).map(item => `
+                            <tr height="5"></tr>
+                            <tr>
+                                <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;"><strong>${item.label}:</strong> ${item.text}</td>
+                            </tr>
+                        `).join('');
+                        if (block.data.title || highlights) {
+                            contentHTML += `
+                                ${block.data.title ? `
+                                <tr>
+                                    <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;"><strong>${block.data.title}</strong></td>
+                                </tr>
+                                ` : ''}
+                                ${highlights}
+                                <tr height="10"></tr>
+                            `;
+                        }
+                        break;
+                }
+            });
+
+            return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+</head>
+<body style="margin: 0; padding: 10px">
+    <table width="650" border="0" borderspacing="0" cellspacing="0" cellpadding="0" style="position: relative; margin: 0 auto; max-width: 100%;">
+        <tr height="10"></tr>
+        ${bannerUrl ? `
+        <tr>
+            <td><img width="650" src="${bannerUrl}" alt="banner" style="vertical-align: middle; max-width: 100%;"></td>
+        </tr>
+        ` : ''}
+    </table>
+    <table width="650" border="0" borderspacing="0" cellspacing="0" cellpadding="0" style="background: ${bodyColor}; position: relative; margin: 0 auto; max-width: 100%;">
+        <tr height="40"></tr>
+        <tr>
+            <td width="5%"></td>
+            <td>
+                <table width="100%" border="0" borderspacing="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;">${greeting}</td>
+                    </tr>
+                    ${openingMessage ? `
+                    <tr height="20"></tr>
+                    <tr>
+                        <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;">${openingMessage}</td>
+                    </tr>
+                    ` : ''}
+                    <tr height="10"></tr>
+                    ${contentHTML}
+                    <tr height="30"></tr>
+                    <tr>
+                        <td style="font-family: 'Trebuchet MS', Arial, sans-serif; line-height: 150%;">
+                            Best Regards,<br/><br/>
+                            <strong>${sigName}</strong><br/>
+                            ${sigTitle}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="5%"></td>
+        </tr>
+        <tr height="40"></tr>
+    </table>
+    <table width="650" border="0" borderspacing="0" cellspacing="0" cellpadding="0" style="background: ${footerColor}; position: relative; margin: 0 auto; max-width: 100%;">
+        <tr height="20"></tr>
+        <tr>
+            <td width="5%"></td>
+            <td>
+                <table width="100%" border="0" borderspacing="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="100%" style="font-family: Arial, Helvetica, sans-serif; font-weight: 900; text-align: center; color: #fff; font-size: 12px;">${footerMsg}</td>
+                    </tr>
+                </table>
+            </td>
+            <td width="5%"></td>
+        </tr>
+        <tr height="20"></tr>
+    </table>
+    <table width="650" border="0" borderspacing="0" cellspacing="0" cellpadding="0" style="position: relative; margin: 0 auto; max-width: 100%;">
+        <tr height="10"></tr>
+    </table>
+</body>
+</html>`;
+        }
+
+        function updatePreview() {
+            const html = generateHTML();
+
+            if (currentTab === 'preview') {
+                document.getElementById('previewView').innerHTML = html;
+            } else {
+                document.getElementById('codeView').textContent = html;
+            }
+
+            // Update banner preview
+            const bannerUrl = document.getElementById('bannerUrl').value;
+            const preview = document.getElementById('bannerPreview');
+            if (bannerUrl) {
+                preview.src = bannerUrl;
+                preview.classList.remove('hidden');
+            } else {
+                preview.classList.add('hidden');
+            }
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.preview-tabs button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (tab === 'preview') {
+                document.getElementById('previewView').classList.remove('hidden');
+                document.getElementById('codeView').classList.add('hidden');
+                updatePreview();
+            } else {
+                document.getElementById('previewView').classList.add('hidden');
+                document.getElementById('codeView').classList.remove('hidden');
+                updatePreview();
+            }
+        }
+
+        function copyToClipboard() {
+            // For Gmail, we need to copy the rendered HTML
+            const previewElement = document.getElementById('previewView');
+            const range = document.createRange();
+            range.selectNode(previewElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+
+            alert('✅ Email copied! Now paste it directly into Gmail compose window (Ctrl+V or Cmd+V)');
+        }
+
+        function downloadHTML() {
+            const html = generateHTML();
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'email-report.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initial render
+        updatePreview();
+    </script>
+</body>
+</html>
