@@ -5,8 +5,8 @@
   var GOATCOUNTER_CODE = 'yotpo-ps';
 
   window.goatcounter = {
-    // Count /email-builder and /email-builder.html as one page, and ignore query strings
-    path: function (p) { return p.split('?')[0].replace(/\.html$/, ''); }
+    // Count /email-builder and /email-builder.html (and / and /index.html) as one page, and ignore query strings
+    path: function (p) { return p.split('?')[0].replace(/\.html$/, '').replace(/\/index$/, '/'); }
   };
 
   var s = document.createElement('script');
